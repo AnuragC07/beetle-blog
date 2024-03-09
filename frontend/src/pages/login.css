@@ -1,0 +1,8 @@
+#body {
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0.745), rgb(255, 255, 255)), url('../assets/19742-removebg-preview.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 90vh;
+    /* Set height according to your layout */
+}
