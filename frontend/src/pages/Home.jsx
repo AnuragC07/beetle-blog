@@ -2,6 +2,8 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import pic from "../assets/pexels-kyle-miller-20272816.jpg";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
+import BlogCard from "../components/BlogCard";
+import Footer from "../components/Footer";
 const Home = () => {
   return (
     <div>
@@ -31,6 +33,18 @@ const Home = () => {
             </h2>
           </div>
         </div>
+      </div>
+      <div className="bg-stone-950 rounded-t-3xl p-5 mt-24">
+        <h1 className="text-4xl font-light text-white m-5 mb-10">
+          Latest Articles
+        </h1>
+        <div className="mt-5">
+          <BlogCard />
+          <BlogCard />
+        </div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );
