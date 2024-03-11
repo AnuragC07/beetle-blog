@@ -18,7 +18,7 @@ const FullBlog = () => {
           </div>
           <img src={pic} alt="" className="h-1/2 w-1/2 ml-5 rounded-xl mt-5" />
           <div>
-            <h2 className="text-gray-700 font-normal text-xl mt-6">
+            <h2 className="text-gray-500 font-normal text-xl mt-6">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
               voluptates animi porro! Facere ducimus sed, odit maxime ipsum
               alias doloremque autem, consectetur cumque at quia quod ipsam iure

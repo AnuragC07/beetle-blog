@@ -5,6 +5,8 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import FullBlog from "./pages/FullBlog";
 import User from "./pages/User";
+import Create from "./pages/Create";
+
 const App = () => {
   return (
     <div>
@@ -14,6 +16,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/fullblog" element={<FullBlog />} />
         <Route path="/user" element={<User />} />
+        <Route path="/create" element={<Create />} />
       </Routes>
     </div>
   );

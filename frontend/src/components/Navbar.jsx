@@ -6,6 +6,7 @@ const Navbar = () => {
     <div className="flex justify-between m-5">
       <img src={Logo} alt="" />
       <div id="lists" className="flex justify-center items-center gap-8 mr-10">
+        <p className="text-gray-700 cursor-pointer">Create</p>
         <p className="text-gray-600 cursor-pointer">Categories</p>
         <p className="text-gray-600 cursor-pointer">About</p>
         <img
