@@ -23,7 +23,7 @@ const Home = () => {
         </div>
         <div className="relative w-1/2">
           <img src={pic} alt="" className="w-full rounded-3xl" />
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-opacity-30 backdrop-blur-lg rounded-3xl w-9/12">
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-opacity-30 backdrop-blur-lg rounded-3xl w-9/12 cursor-pointer">
             <p className=" text-left text-white border border-gray-500 w-fit p-1 pl-3 pr-3 rounded-3xl font-extralight text-sm mt-3 bg-opacity-30 backdrop-blur-3xl ">
               featured
             </p>

@@ -38,7 +38,7 @@ const Register = () => {
               password
             </label>
             <input
-              type="text"
+              type="password"
               className="border border-slate-200 w-full bg-white rounded-md h-8 pl-3 font-light mt-1 text-sm"
               placeholder="enter password"
             />
