@@ -52,7 +52,7 @@ const Register = () => {
 
         <div>
           <h1>
-            not new here? <Link>Login</Link>
+            not new here? <Link to="/signin">Login</Link>
           </h1>
         </div>
       </div>

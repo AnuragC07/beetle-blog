@@ -42,7 +42,7 @@ const Login = () => {
 
         <div>
           <h1>
-            new here? <Link>Sign up</Link>
+            new here? <Link to="/">Sign up</Link>
           </h1>
         </div>
       </div>
