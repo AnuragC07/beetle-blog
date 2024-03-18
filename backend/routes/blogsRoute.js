@@ -1,9 +1,25 @@
 const Blog = require("../models/blogModel");
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+
+
+//multer storage
+const Storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./uploads");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()} - ${file.originalname}`);
+    },
+});
+
+const upload = multer({
+    storage: Storage
+})
 
 //api to create a new Blog
-router.post('/', async (req, res) => {
+router.post('/', upload.single('file'), async (req, res) => {
     try {
         if (!req.body.title || !req.body.content) {
             return res.status(400).json({
@@ -12,7 +28,7 @@ router.post('/', async (req, res) => {
         }
         const newBlog = {
             title: req.body.title,
-            image: req.body.image,
+            image: req.file.filename,
             content: req.body.content,
         };
         const blog = await Blog.create(newBlog);

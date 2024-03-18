@@ -8,32 +8,48 @@ const Create = () => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [img, setImg] = useState("");
+  const [file, setFile] = useState("");
   const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   setFile (e.target.files[0]);
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleCloseImage = () => {
     setImagePreview(null);
   };
 
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
   const handleSaveBlog = () => {
-    const data = {
-      title,
-      content,
-    };
+    const formdata = new FormData();
+    formdata.append("title", title);
+    formdata.append("file", file);
+    formdata.append("content", content);
+    console.log(formdata);
     axios
-      .post("http://localhost:8000/", data)
-      .then(() => {
+      .post("http://localhost:8000/", formdata)
+      .then((res) => {
+        alert("Blog Successfully Created 🚀");
+        console.log(res);
         navigate("/home");
       })
       .catch((error) => {
@@ -65,7 +81,7 @@ const Create = () => {
             <input
               type="file"
               accept=".jpg, .jpeg, .png"
-              onChange={handleImageChange}
+              onChange={handleFileChange}
               className="mt-2"
             />
             {imagePreview && (
@@ -86,7 +102,7 @@ const Create = () => {
               type="text"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="border border-slate-400 w-full bg-white rounded-md my-2 px-5 py-5 min-h-52 max-h-52 overflow-y-auto overflow-x-hidden text-slate-500 font-medium"
+              className="border border-slate-400 w-full bg-white rounded-md my-2 px-5 py-5 min-h-60 text-slate-600 font-normal text-xl"
               placeholder="Start writing your Blog"
             />
 
