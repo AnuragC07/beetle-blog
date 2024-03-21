@@ -18,7 +18,7 @@ app.use(
         allowedHeaders: ['Content-Type'],
     })
 );
-
+app.use(express.static('uploads'));
 
 app.get("/", (req, res) => {
     res.send("Hello from home");

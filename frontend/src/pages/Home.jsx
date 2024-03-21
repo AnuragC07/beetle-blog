@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Navbar from "../components/Navbar";
-import pic from "../assets/pexels-kyle-miller-20272816.jpg";
+import { Link } from "react-router-dom";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 import BlogCard from "../components/BlogCard";
 import Footer from "../components/Footer";
 const Home = () => {
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/")
+      .then((response) => {
+        setBlogs(response.data.data);
+        console.log(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -22,16 +37,25 @@ const Home = () => {
           </button>
         </div>
         <div className="relative w-1/2">
-          <img src={pic} alt="" className="w-full rounded-3xl" />
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-opacity-30 backdrop-blur-lg rounded-3xl w-9/12 cursor-pointer">
-            <p className=" text-left text-white border border-gray-500 w-fit p-1 pl-3 pr-3 rounded-3xl font-extralight text-sm mt-3 bg-opacity-30 backdrop-blur-3xl ">
-              featured
-            </p>
-            <h2 className="text-lg font-light text-left text-white mt-4">
-              Electric vehicles may emit 1,850 times more particulate matter
-              than petrol, diesel cars: Study
-            </h2>
-          </div>
+          {blogs.length > 0 && (
+            <>
+              <img
+                src={`http://localhost:8000/images/${blogs[2].image}`}
+                alt=""
+                className="w-full rounded-3xl"
+              />
+              <Link to={`/fullblog/${blogs[2]._id}`}>
+                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-black/100 to-black/90 rounded-t-3xl w-full pl-10 h-28 cursor-pointer">
+                  <p className=" text-left text-white border border-gray-500 w-fit p-1 pl-3 pr-3 rounded-3xl font-extralight text-sm mt-3 bg-opacity-30 backdrop-blur-3xl">
+                    featured
+                  </p>
+                  <h2 className="text-lg font-light text-left text-white mt-4">
+                    {blogs[2].title}
+                  </h2>
+                </div>
+              </Link>
+            </>
+          )}
         </div>
       </div>
       <div className="bg-stone-950 rounded-t-3xl p-5 mt-24">
@@ -39,8 +63,16 @@ const Home = () => {
           Latest Articles
         </h1>
         <div className="mt-5">
-          <BlogCard />
-          <BlogCard />
+          {blogs.map((blog, index) => (
+            <BlogCard
+              key={index}
+              title={blog.title}
+              // Construct the URL to the image using the filename
+              image={`http://localhost:8000/images/${blog.image}`}
+              blog={blog}
+              content={blog.content}
+            />
+          ))}
         </div>
       </div>
       <div>

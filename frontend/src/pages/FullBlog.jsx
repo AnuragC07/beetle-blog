@@ -1,36 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import pic from "../assets/pexels-kyle-miller-20272816.jpg";
 import Navbar from "../components/Navbar";
+import PropTypes from "prop-types";
 const FullBlog = () => {
+  const [blog, setBlog] = useState({});
+  const { id } = useParams();
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/${id}`)
+      .then((response) => {
+        setBlog(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
   return (
     <div>
       <Navbar />
       <div className="flex justify-center items-center">
-        <div className="m-5 mt-5 flex flex-col w-2/3 justify-center items-center">
-          <div>
-            <h1 className="text-3xl font-sans text-black w-11/12">
-              Electric vehicles may emit 1,850 times more particulate matter
-              than petrol, diesel cars: Study
+        <div className="m-5 mt-5 flex flex-col w-2/3">
+          <div className="text-left items-start pl-2">
+            <h1 className="text-4xl font-bold font-serif text-stone-700 w-full text-left items-left">
+              {blog.title}
             </h1>
             <p className="text-gray-400 cursor-pointer mt-4 font-light">
               @anurag
             </p>
           </div>
-          <img src={pic} alt="" className="h-1/2 w-1/2 ml-5 rounded-xl mt-5" />
+          <img
+            src={`http://localhost:8000/images/${blog.image}`}
+            alt=""
+            className="h-1/2 w-full rounded-xl mt-5"
+          />
           <div>
-            <h2 className="text-gray-500 font-normal text-xl mt-6">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum
-              voluptates animi porro! Facere ducimus sed, odit maxime ipsum
-              alias doloremque autem, consectetur cumque at quia quod ipsam iure
-              aut sint. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Iste corporis quas quos enim nesciunt eos. Dolor inventore omnis
-              accusamus optio magni voluptatibus mollitia alias fugiat officiis
-              delectus praesentium autem Lorem ipsum dolor sit amet consectetur,
-              adipisicing elit. Nam illo quod iusto et eveniet obcaecati debitis
-              quam vel, incidunt commodi soluta sint? Repudiandae dolore veniam
-              culpa debitis repellendus ducimus eum veritatis dignissimos,
-              necessitatibus ex iusto harum sit ipsam neque minima rem autem!
-              Quos repellendus culpa velit laboriosam placeat, magnam aperiam.
+            <h2 className="text-gray-700 font-sans text-xl mt-10">
+              {blog.content}
             </h2>
           </div>
         </div>
@@ -39,4 +47,10 @@ const FullBlog = () => {
   );
 };
 
+FullBlog.propTypes = {
+  title: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  blog: PropTypes.number.isRequired,
+  content: PropTypes.string.isRequired,
+};
 export default FullBlog;
