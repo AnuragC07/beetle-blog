@@ -4,13 +4,14 @@ const port = 8000;
 const app = express();
 const cors = require("cors");
 const blogsRoute = require("./routes/blogsRoute");
-
+const userRoute = require("./routes/userRoute");
 
 
 app.use(cors());
 // app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 app.use('/', blogsRoute);
+app.use('/', userRoute);
 app.use(
     cors({
         origin: '*',
