@@ -9,14 +9,25 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
+    // Retrieve the token from local storage
+    const token = localStorage.getItem("jwtToken");
+    console.log("Token:", token);
+    // Set the Authorization header in axios request config
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    // Send the GET request with the token included in the headers
     axios
-      .get("http://localhost:8000/")
+      .get("http://localhost:8000/", config)
       .then((response) => {
         setBlogs(response.data.data);
         console.log(response.data.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Axios Error:", error);
       });
   }, []);
 

@@ -10,18 +10,48 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  // Function to get JWT token from local storage
+  const getToken = () => {
+    return localStorage.getItem("jwtToken");
+  };
+
+  // Create an Axios instance with default configuration
+  const axiosInstance = axios.create({
+    baseURL: "http://localhost:8000", // Your server base URL
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  // Add a request interceptor to attach JWT token to all requests
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      const token = getToken();
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+        console.log(token);
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/signin", {
+      const response = await axiosInstance.post("/signin", {
         email,
         password,
       });
-      if (response.data === "Success") {
+      if (response.data.token) {
+        // Store the token in local storage upon successful login
+        localStorage.setItem("jwtToken", response.data.token);
         // Redirect to home page upon successful login
         navigate("/home");
       } else {
-        alert(response.data); // Display error message if login fails
+        alert(response.data.error); // Display error message if login fails
       }
     } catch (error) {
       console.error("Login Error:", error);

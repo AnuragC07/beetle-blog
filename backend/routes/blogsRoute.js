@@ -2,8 +2,9 @@ const Blog = require("../models/blogModel");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const { jwtAuthMiddleware, generateToken } = require('../jwt');
 //multer storage
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -18,8 +19,38 @@ const upload = multer({
     storage: Storage
 })
 
+//middleware for jwt
+// function verifyToken(req, res, next) {
+//     const token = req.headers['authorization'];
+//     if (!token) return res.status(401).json({ error: 'Access denied. Token is required.' });
+
+//     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+//         if (err) return res.status(403).json({ error: 'Invalid token.' });
+//         req.user = decoded.user;
+//         next();
+//     });
+// }
+
+//middleware for jwt 2
+// const jwtAuthMiddleware = (req, res, next) => {
+//     const token = req.headers.authorization.split(' ')[1];
+//     if (!token)
+//         return res.status(401).json({ error: 'Unauthorized' });
+//     try {
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+//         req.user = decoded
+//         next();
+//     }
+//     catch (err) {
+//         console.error(err);
+//         res.status(401).json({ error: 'Invalid token' });
+//     }
+// }
+
+
+
 //api to create a new Blog
-router.post('/', upload.single('file'), async (req, res) => {
+router.post('/', jwtAuthMiddleware, upload.single('file'), async (req, res) => {
     try {
         if (!req.body.title || !req.body.content) {
             return res.status(400).json({
@@ -41,7 +72,7 @@ router.post('/', upload.single('file'), async (req, res) => {
 });
 
 //api to show all blogs
-router.get('/', async (req, res) => {
+router.get('/', jwtAuthMiddleware, async (req, res) => {
     try {
         const blogs = await Blog.find({});
         res.status(200).json({
@@ -64,7 +95,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 //api to delete a specific blog
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", jwtAuthMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
         const blog = await Blog.findByIdAndDelete(id);

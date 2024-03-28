@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { Select, FileInput } from "flowbite-react";
 const Create = () => {
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -78,12 +79,12 @@ const Create = () => {
             <label className="text-lg text-slate-400 font-normal">
               Article Image
             </label>
-            <input
+            <FileInput
               type="file"
               accept=".jpg, .jpeg, .png"
               onChange={handleFileChange}
-              className="mt-2"
-            />
+              className="mt-2 rounded-lg border-none"
+            ></FileInput>
             {imagePreview && (
               <div className="relative mt-2 rounded-md">
                 <button
