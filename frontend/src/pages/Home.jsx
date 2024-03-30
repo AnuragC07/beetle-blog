@@ -5,8 +5,42 @@ import { Link } from "react-router-dom";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 import BlogCard from "../components/BlogCard";
 import Footer from "../components/Footer";
+
+const decodeToken = (token) => {
+  const payload = token.split(".")[1];
+  return JSON.parse(atob(payload));
+};
+
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
+  const [username, setUsername] = useState("");
+  const [greeting, setGreeting] = useState("");
+
+  useEffect(() => {
+    // Function to get the username from JWT token stored in localStorage
+    const getUsernameFromToken = () => {
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        // Decode the JWT token to get user information
+        const decodedToken = decodeToken(token);
+        // Assuming the username is stored in the decoded token as 'username'
+        setUsername(decodedToken.username);
+      }
+    };
+
+    // Call the function to get username when the component mounts
+    getUsernameFromToken();
+
+    // Get current time and set greeting
+    const currentTime = new Date().getHours();
+    if (currentTime >= 5 && currentTime < 12) {
+      setGreeting("Good Morning");
+    } else if (currentTime >= 12 && currentTime < 18) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
+    }
+  }, []); // Empty dependency array ensures the effect runs only once
 
   useEffect(() => {
     // Retrieve the token from local storage
@@ -31,19 +65,30 @@ const Home = () => {
       });
   }, []);
 
+  const handleExploreButtonClick = () => {
+    // Smooth scroll to the "Latest Articles" section
+    const latestArticlesSection = document.getElementById("latest-articles");
+    latestArticlesSection.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div>
       <Navbar />
       <div id="vw1" className="flex m-10 mt-20 gap-20">
         <div className="flex flex-col justify-between items-start gap-10">
           <div className="mt-10">
-            <h1 className="text-4xl text-gray-700">Good Evening, Anurag</h1>
+            <h1 className="text-4xl text-gray-700">
+              {greeting}, {username}
+            </h1>
             <h3 className="text-xl w-10/12 mt-5 text-gray-400">
               Welcome back on Beetle, check out fresh articles served just for
               you!
             </h3>
           </div>
-          <button className="bg-zinc-800 text-white h-10 w-40 text-sm p-1  mt-10 rounded-md font-light">
+          <button
+            className="bg-zinc-800 text-white h-10 w-40 text-sm p-1  mt-10 rounded-md font-light"
+            onClick={handleExploreButtonClick}
+          >
             Explore <TrendingFlatRoundedIcon className="ml-1" />
           </button>
         </div>
@@ -69,7 +114,10 @@ const Home = () => {
           )}
         </div>
       </div>
-      <div className="bg-stone-950 rounded-t-3xl p-5 mt-24">
+      <div
+        id="latest-articles"
+        className="bg-stone-950 rounded-t-3xl p-5 mt-24"
+      >
         <h1 className="text-4xl font-light text-white m-5 mb-10">
           Latest Articles
         </h1>
