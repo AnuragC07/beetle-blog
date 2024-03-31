@@ -28,7 +28,7 @@ const FullBlog = () => {
               {blog.title}
             </h1>
             <p className="text-gray-400 cursor-pointer mt-4 font-light">
-              @anurag
+              {blog.author}
             </p>
           </div>
           <img

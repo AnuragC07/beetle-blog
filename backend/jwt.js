@@ -29,5 +29,22 @@ const generateToken = (userData) => {
     return jwt.sign(userData, process.env.JWT_SECRET_KEY, { expiresIn: 5000 });
 }
 
+//extract username from current logged in user's jwt token
+const extractUsernameFromToken = (req, res, next) => {
+    const authorizationHeader = req.headers.authorization;
+    if (!authorizationHeader)
+        return res.status(401).json({ message: 'Token not found' });
 
-module.exports = { jwtAuthMiddleware, generateToken }
+    const token = authorizationHeader.split(' ')[1];
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        req.username = decoded.username;
+        next();
+    } catch (err) {
+        console.error(err);
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+};
+
+
+module.exports = { jwtAuthMiddleware, generateToken, extractUsernameFromToken }

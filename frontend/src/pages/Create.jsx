@@ -47,7 +47,11 @@ const Create = () => {
     formdata.append("content", content);
     console.log(formdata);
     axios
-      .post("http://localhost:8000/", formdata)
+      .post("http://localhost:8000/", formdata, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+      })
       .then((res) => {
         alert("Blog Successfully Created 🚀");
         console.log(res);

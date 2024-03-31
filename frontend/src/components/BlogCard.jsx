@@ -3,7 +3,7 @@ import pic from "../assets/pexels-kyle-miller-20272816.jpg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
-const BlogCard = ({ title, image, blog, content }) => {
+const BlogCard = ({ title, author, image, blog, content }) => {
   return (
     <div>
       <div className="border border-stone-800 rounded-xl shadow-md w-11/12 h-80 flex flex-row justify-around gap-10 m-5 ml-14 p-5 mt-5">
@@ -11,7 +11,7 @@ const BlogCard = ({ title, image, blog, content }) => {
         <div>
           <h1 className="text-2xl font-sans text-white">{title}</h1>
           <p className="text-gray-400 cursor-pointer mt-2 font-light">
-            @anurag
+            {author}
           </p>
           <h2 className="text-gray-500 font-light text-lg mt-6 max-h-20 overflow-hidden ">
             {content}
@@ -31,6 +31,7 @@ const BlogCard = ({ title, image, blog, content }) => {
 
 BlogCard.propTypes = {
   title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   blog: PropTypes.number.isRequired,
   content: PropTypes.string.isRequired,

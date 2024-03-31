@@ -126,7 +126,7 @@ const Home = () => {
             <BlogCard
               key={index}
               title={blog.title}
-              // Construct the URL to the image using the filename
+              author={blog.author}
               image={`http://localhost:8000/images/${blog.image}`}
               blog={blog}
               content={blog.content}

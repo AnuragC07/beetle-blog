@@ -4,7 +4,7 @@ const router = express.Router();
 const multer = require("multer");
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { jwtAuthMiddleware, generateToken } = require('../jwt');
+const { jwtAuthMiddleware, generateToken, extractUsernameFromToken } = require('../jwt');
 //multer storage
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -50,7 +50,7 @@ const upload = multer({
 
 
 //api to create a new Blog
-router.post('/', jwtAuthMiddleware, upload.single('file'), async (req, res) => {
+router.post('/', jwtAuthMiddleware, extractUsernameFromToken, upload.single('file'), async (req, res) => {
     try {
         if (!req.body.title || !req.body.content) {
             return res.status(400).json({
@@ -59,8 +59,9 @@ router.post('/', jwtAuthMiddleware, upload.single('file'), async (req, res) => {
         }
         const newBlog = {
             title: req.body.title,
+            author: req.username,
             image: req.file.filename,
-            content: req.body.content,
+            content: req.body.content
         };
         const blog = await Blog.create(newBlog);
         return res.status(200).json(blog);
@@ -83,6 +84,8 @@ router.get('/', jwtAuthMiddleware, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+
 //api to show a specific blog
 router.get('/:id', async (req, res) => {
     try {

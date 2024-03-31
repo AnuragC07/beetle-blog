@@ -6,6 +6,7 @@ const blogSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        author: String,
         image: String,
         content: {
             type: String,
