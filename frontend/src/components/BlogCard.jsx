@@ -7,8 +7,8 @@ const BlogCard = ({ title, author, image, blog, content }) => {
   return (
     <div>
       <div className="border border-stone-800 rounded-xl shadow-md w-11/12 h-80 flex flex-row justify-around gap-10 m-5 ml-14 p-5 mt-5">
-        <img src={image} alt="" className="h-full ml-5 rounded-xl" />
-        <div>
+        <img src={image} alt="" className="h-full ml-5 rounded-xl max-w-md" />
+        <div className="w-9/12 h-80">
           <h1 className="text-2xl font-sans text-white">{title}</h1>
           <p className="text-gray-400 cursor-pointer mt-2 font-light">
             {author}
