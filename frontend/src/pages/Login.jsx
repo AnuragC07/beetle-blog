@@ -81,7 +81,7 @@ const Login = () => {
             </label>
             <input
               type="email"
-              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-light mt-1 text-sm"
+              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -94,7 +94,7 @@ const Login = () => {
             </label>
             <input
               type="password"
-              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-light mt-1 text-sm"
+              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -102,15 +102,21 @@ const Login = () => {
             />
           </div>
           <div>
-            <button className="bg-zinc-800 text-white h-10 text-sm p-1 w-full mt-20 rounded-md ">
+            <button className="bg-zinc-800 text-white h-10 text-sm p-1 w-full mt-20 rounded-md font-subtitle font-medium">
               Sign in
             </button>
           </div>
         </form>
 
         <div>
-          <h1 className="text-xl ">
-            New here? <Link to="/signup">Sign up</Link>
+          <h1 className="text-lg text-slate-600 font-subtitle font-semibold">
+            New here?{" "}
+            <Link
+              to="/signup"
+              className="text-lg text-slate-800 font-subtitle font-semibold"
+            >
+              Sign up
+            </Link>
           </h1>
         </div>
       </div>

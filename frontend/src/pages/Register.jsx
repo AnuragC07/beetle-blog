@@ -54,7 +54,7 @@ const Register = () => {
             </label>
             <input
               type="text"
-              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-light mt-1 text-sm"
+              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
               placeholder="enter your username"
               required
               name="username"
@@ -67,7 +67,7 @@ const Register = () => {
             </label>
             <input
               type="text"
-              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-light mt-1 text-sm"
+              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
               placeholder="enter your email address"
               required
               name="email"
@@ -80,7 +80,7 @@ const Register = () => {
             </label>
             <input
               type="password"
-              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-light mt-1 text-sm"
+              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
               placeholder="enter password"
               required
               name="password"
@@ -89,7 +89,7 @@ const Register = () => {
           </div>
           <div>
             <button
-              className="bg-zinc-800 text-white h-10 text-sm p-1 w-full mt-10 rounded-md"
+              className="bg-zinc-800 text-white h-10 text-sm p-1 w-full mt-10 rounded-md font-subtitle font-medium"
               type="submit"
             >
               Sign up
@@ -98,8 +98,14 @@ const Register = () => {
         </form>
 
         <div>
-          <h1 className="text-xl ">
-            not new here? <Link to="/signin">Login</Link>
+          <h1 className="text-lg text-slate-600 font-subtitle font-semibold">
+            already an user?{" "}
+            <Link
+              to="/signin"
+              className="text-lg text-slate-800 font-subtitle font-semibold"
+            >
+              Login
+            </Link>
           </h1>
         </div>
       </div>

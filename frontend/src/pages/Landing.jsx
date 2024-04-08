@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../assets/beetle.svg";
-import illustration from "../assets/Designer__7_-removebg-preview.png";
+import illustration from "../assets/Designer__7_-removebg.png";
 import { Link } from "react-router-dom";
 
 const Landing = () => {
@@ -13,9 +13,9 @@ const Landing = () => {
         <img
           src={illustration}
           alt=""
-          className="w-2/4 flex justify-center items-center ml-15"
+          className="w-2/4 flex justify-center items-center ml-15 h-screen p-10"
         />
-        <div className="flex flex-col justify-between p-2 pl-10 mt-5 w-3/4">
+        <div className="flex flex-col justify-between  pl-10 mt-5 w-2/4 p-16">
           <div>
             <h1 className="text-6xl font-title w-3/4">Empowering Minds.</h1>
             <h2 className="text-2xl font-subtitle w-3/4 text-stone-400 font-semibold mt-10">
