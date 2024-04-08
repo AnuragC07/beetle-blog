@@ -7,6 +7,11 @@ const blogSchema = mongoose.Schema(
             required: true,
         },
         author: String,
+        authorId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User', // Reference to the User model
+            required: true,
+        },
         image: String,
         content: {
             type: String,

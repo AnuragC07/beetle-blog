@@ -6,11 +6,13 @@ import Home from "./pages/Home";
 import FullBlog from "./pages/FullBlog";
 import User from "./pages/User";
 import Create from "./pages/Create";
+import Landing from "./pages/Landing";
 
 const App = () => {
   return (
     <div>
       <Routes>
+        <Route path="/" element={<Landing />} />
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Register />} />
         <Route path="/home" element={<Home />} />

@@ -1,5 +1,6 @@
 const Blog = require("../models/blogModel");
 const express = require("express");
+const cors = require("cors");
 const router = express.Router();
 const multer = require("multer");
 const jwt = require('jsonwebtoken');
@@ -18,7 +19,9 @@ const Storage = multer.diskStorage({
 const upload = multer({
     storage: Storage
 })
-
+router.use(cors());
+// app.use(express.urlencoded({ extended: false }));
+router.use(express.json())
 //middleware for jwt
 // function verifyToken(req, res, next) {
 //     const token = req.headers['authorization'];
@@ -60,6 +63,7 @@ router.post('/', jwtAuthMiddleware, extractUsernameFromToken, upload.single('fil
         const newBlog = {
             title: req.body.title,
             author: req.username,
+            authorId: req.user.id,
             image: req.file.filename,
             content: req.body.content
         };
@@ -109,6 +113,37 @@ router.delete("/:id", jwtAuthMiddleware, async (req, res) => {
     }
     catch (error) {
         res.status(500).json({ message: error.message });
+    }
+});
+
+
+// router.get('/user', extractUsernameFromToken, async (req, res) => {
+//     try {
+//         const { authorUsername } = req.username; // Extract username from the authenticated user
+//         const blogs = await Blog.find({ author: authorUsername }); // Filter blogs by author's username
+//         console.log(blogs)
+//         res.status(200).json({
+//             data: blogs,
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// });
+
+router.get('/user-posts', jwtAuthMiddleware, async (req, res) => {
+    try {
+        // Extract the author ID from the authenticated user
+        const authorId = req.user.id;
+
+        // Query the blog posts with the matching authorId
+        const userPosts = await Blog.find({ authorId });
+
+        // Send the user's blog posts in the response
+        res.status(200).json({ userPosts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
