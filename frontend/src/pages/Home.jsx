@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 import BlogCard from "../components/BlogCard";
 import Footer from "../components/Footer";
-
+import heroimg from "../assets/bwink_med_12_single_01 1.png";
 const decodeToken = (token) => {
   const payload = token.split(".")[1];
   return JSON.parse(atob(payload));
@@ -74,52 +74,32 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div id="vw1" className="flex m-10 mt-20 gap-20">
-        <div className="flex flex-col justify-between items-start gap-10">
+      <div id="vw1" className="flex justify-around m-10 mt-20 gap-20">
+        <div className="flex flex-col justify-around items-start gap-10">
           <div className="mt-10">
-            <h1 className="text-4xl text-gray-700">
-              {greeting}, {username}
+            <h1 className="text-5xl text-stone-700 font-title">
+              {greeting}, {username}.
             </h1>
-            <h3 className="text-xl w-10/12 mt-5 text-gray-400">
+            <h3 className="text-4xl font-subtitle w-10/12 text-stone-400 font-medium mt-10">
               Welcome back on Beetle, check out fresh articles served just for
               you!
             </h3>
           </div>
           <button
-            className="bg-zinc-800 text-white h-10 w-40 text-sm p-1  mt-10 rounded-md font-light"
+            className="bg-stone-900 text-white h-10 w-40 text-sm p-1 rounded-md  font-subtitle"
             onClick={handleExploreButtonClick}
           >
             Explore <TrendingFlatRoundedIcon className="ml-1" />
           </button>
         </div>
-        <div className="relative w-1/2">
-          {blogs.length > 0 && (
-            <>
-              <img
-                src={`http://localhost:8000/images/${blogs[2].image}`}
-                alt=""
-                className="w-full rounded-3xl"
-              />
-              <Link to={`/fullblog/${blogs[2]._id}`}>
-                <div className="absolute top-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-black/100 to-black/90 rounded-t-3xl w-full pl-10 h-28 cursor-pointer">
-                  <p className=" text-left text-white border border-gray-500 w-fit p-1 pl-3 pr-3 rounded-3xl font-extralight text-sm mt-3 bg-opacity-30 backdrop-blur-3xl">
-                    featured
-                  </p>
-                  <h2 className="text-lg font-light text-left text-white mt-4">
-                    {blogs[2].title}
-                  </h2>
-                </div>
-              </Link>
-            </>
-          )}
-        </div>
+        <img src={heroimg} alt="" className="w-2/4" />
       </div>
       <div
         id="latest-articles"
-        className="bg-stone-950 rounded-t-3xl p-5 mt-24"
+        className="bg-stone-100 rounded-t-3xl p-5 mt-24"
       >
-        <h1 className="text-4xl font-light text-white m-5 mb-10">
-          Latest Articles
+        <h1 className="text-4xl font-subtitle font-medium text-stone-500 m-5 mb-10">
+          Latest stories
         </h1>
         <div className="mt-5">
           {blogs.map((blog, index) => (

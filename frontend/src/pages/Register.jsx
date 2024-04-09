@@ -36,10 +36,10 @@ const Register = () => {
       <img src={Logo} alt="beetle logo" className="m-5" />
       <div id="body" className="flex flex-col justify-center items-center">
         <div className="flex flex-col gap-5 mt-10 justify-center items-center">
-          <h1 className="text-5xl font-medium  text-slate-700 font-title">
+          <h1 className="text-5xl font-medium  text-stone-700 font-title">
             Glad to have you here!
           </h1>
-          <h3 className="text-xl font-subtitle text-slate-400 font-semibold">
+          <h3 className="text-xl font-subtitle text-stone-400 font-semibold">
             Lets quickly set everything up
           </h3>
         </div>
@@ -89,7 +89,7 @@ const Register = () => {
           </div>
           <div>
             <button
-              className="bg-zinc-800 text-white h-10 text-sm p-1 w-full mt-10 rounded-md font-subtitle font-medium"
+              className="bg-stone-800 text-white h-10 text-sm p-1 w-full mt-10 rounded-md font-subtitle font-medium"
               type="submit"
             >
               Sign up
@@ -98,11 +98,11 @@ const Register = () => {
         </form>
 
         <div>
-          <h1 className="text-lg text-slate-600 font-subtitle font-semibold">
+          <h1 className="text-lg text-stone-600 font-subtitle font-semibold">
             already an user?{" "}
             <Link
               to="/signin"
-              className="text-lg text-slate-800 font-subtitle font-semibold"
+              className="text-lg text-stone-800 font-subtitle font-semibold"
             >
               Login
             </Link>
