@@ -7,6 +7,7 @@ import { Select, FileInput } from "flowbite-react";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import toast from "react-hot-toast";
 
 const Create = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -49,7 +50,7 @@ const Create = () => {
     formdata.append("title", title);
     formdata.append("file", file);
     formdata.append("content", content);
-    console.log(formdata);
+    // console.log(formdata);
     axios
       .post("http://localhost:8000/", formdata, {
         headers: {
@@ -57,13 +58,12 @@ const Create = () => {
         },
       })
       .then((res) => {
-        alert("Blog Successfully Created 🚀");
-        console.log(res);
+        toast.success("Blog Published!");
+        // console.log(res);
         navigate("/home");
       })
       .catch((error) => {
-        alert("Error Occurred");
-        console.log(error);
+        toast.error("Error occurred! Please fill out all fields");
       });
   };
 

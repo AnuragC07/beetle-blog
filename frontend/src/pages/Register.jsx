@@ -24,7 +24,7 @@ const Register = () => {
         "http://localhost:8000/signup",
         formData
       );
-      console.log(response.data);
+      // console.log(response.data);
       navigate("/signin");
     } catch (error) {
       console.error("Signup Error:", error);
@@ -55,7 +55,7 @@ const Register = () => {
             <input
               type="text"
               className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
-              placeholder="enter your username"
+              placeholder="Enter your username"
               required
               name="username"
               onChange={handleChange}
@@ -68,7 +68,7 @@ const Register = () => {
             <input
               type="text"
               className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
-              placeholder="enter your email address"
+              placeholder="Enter your email address"
               required
               name="email"
               onChange={handleChange}
@@ -81,7 +81,7 @@ const Register = () => {
             <input
               type="password"
               className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
-              placeholder="enter password"
+              placeholder="Enter password"
               required
               name="password"
               onChange={handleChange}

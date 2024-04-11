@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ const Login = () => {
       const token = getToken();
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
-        console.log(token);
+        // console.log(token);
       }
       return config;
     },
@@ -49,12 +50,14 @@ const Login = () => {
         // Store the token in local storage upon successful login
         localStorage.setItem("jwtToken", response.data.token);
         // Redirect to home page upon successful login
+        toast.success("Login Successfull!");
         navigate("/home");
       } else {
-        alert(response.data.error); // Display error message if login fails
+        toast.error(response.data.error); // Display error message if login fails
       }
     } catch (error) {
       console.error("Login Error:", error);
+      toast.error("Invalid Email or Password! Please try again.");
     }
   };
 

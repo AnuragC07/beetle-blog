@@ -4,6 +4,8 @@ import UserPic from "../assets/pexels-eric-w-3375230.jpg";
 import BlogCard from "../components/BlogCard";
 import axios from "axios";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import toast from "react-hot-toast";
+
 const decodeToken = (token) => {
   const payload = token.split(".")[1];
   return JSON.parse(atob(payload));
@@ -27,7 +29,7 @@ const User = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8000/", config);
-        console.log("Response:", response); // Log the response
+        // console.log("Response:", response); // Log the response
         // Filter blogs based on author name or ID
         const filteredBlogs = response.data.data.filter((blog) => {
           // Assuming decodedToken contains user information like username and ID
@@ -63,7 +65,8 @@ const User = () => {
         `http://localhost:8000/${selectedBlog._id}`,
         config
       );
-      console.log(response.data.message);
+      // console.log(response.data.message);
+      toast.success("Blog deleted successfully!");
       // Refresh blogs after deletion
       const updatedBlogs = blogs.filter(
         (blog) => blog._id !== selectedBlog._id
@@ -71,7 +74,8 @@ const User = () => {
       setBlogs(updatedBlogs);
       setShowDeleteModal(false);
     } catch (error) {
-      console.log("Axios Error:", error);
+      // console.log("Axios Error:", error);
+      toast.error("Blog deletion failed!");
     }
   };
 
@@ -109,7 +113,9 @@ const User = () => {
         {loading ? (
           <p>Loading...</p>
         ) : blogs.length === 0 ? (
-          <p>No blogs created</p>
+          <p className="text-xl font-bold  font-subtitle text-stone-700">
+            No published blogs
+          </p>
         ) : (
           <ul>
             {blogs.map((blog, index) => (

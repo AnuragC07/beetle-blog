@@ -45,7 +45,7 @@ const Home = () => {
   useEffect(() => {
     // Retrieve the token from local storage
     const token = localStorage.getItem("jwtToken");
-    console.log("Token:", token);
+    // console.log("Token:", token);
     // Set the Authorization header in axios request config
     const config = {
       headers: {
@@ -58,10 +58,10 @@ const Home = () => {
       .get("http://localhost:8000/", config)
       .then((response) => {
         setBlogs(response.data.data);
-        console.log(response.data.data);
+        // console.log(response.data.data);
       })
       .catch((error) => {
-        console.log("Axios Error:", error);
+        // console.log("Axios Error:", error);
       });
   }, []);
 
@@ -102,16 +102,19 @@ const Home = () => {
           Latest stories
         </h1>
         <div className="mt-5">
-          {blogs.map((blog, index) => (
-            <BlogCard
-              key={index}
-              title={blog.title}
-              author={blog.author}
-              image={`http://localhost:8000/images/${blog.image}`}
-              blog={blog}
-              content={blog.content}
-            />
-          ))}
+          {blogs
+            .slice()
+            .reverse()
+            .map((blog, index) => (
+              <BlogCard
+                key={index}
+                title={blog.title}
+                author={blog.author}
+                image={`http://localhost:8000/images/${blog.image}`}
+                blog={blog}
+                content={blog.content}
+              />
+            ))}
         </div>
       </div>
       <div>
