@@ -88,20 +88,24 @@ const User = () => {
   return (
     <div>
       <Navbar />
-      <div className="bg-gray-300  h-32 w-11/12 ml-14 m-5 relative">
-        <div className="absolute top-20 left-10">
+      <div className="bg-gray-300  h-32 w-11/12 ml-14 m-5">
+        <div className="top-28 left-10">
           <div className="flex items-center justify-center gap-8">
-            <img
+            {/* <img
               src={UserPic}
               alt=""
               className="h-32 w-32 rounded-full border border-gray-400 bg-contain cursor-pointer"
-            />
-            <h1 className="text-2xl mt-3">{username}</h1>
+            /> */}
+            <h1 className="text-4xl font-bold font-title text-stone-700 mt-36">
+              {username}
+            </h1>
           </div>
         </div>
       </div>
       <div className="mt-5 ml-14">
-        <h2 className="text-2xl font-bold mb-3">Your Blogs</h2>
+        <h2 className="text-2xl font-bold mb-3 mt-28 font-subtitle text-stone-400">
+          Your Blogs
+        </h2>
         {loading ? (
           <p>Loading...</p>
         ) : blogs.length === 0 ? (
@@ -109,22 +113,24 @@ const User = () => {
         ) : (
           <ul>
             {blogs.map((blog, index) => (
-              <li key={index} className="mb-4 border-2 border-black">
+              <li key={index} className="mb-4">
                 {blog.author === username && (
                   <button
                     onClick={() => openDeleteModal(blog)}
-                    className="text-blue-500 mt-2"
+                    className="text-stone-600 mt-2 absolute right-8 z-30 "
                   >
                     <DeleteRoundedIcon />
                   </button>
                 )}
-                <BlogCard
-                  title={blog.title}
-                  author={blog.author}
-                  image={`http://localhost:8000/images/${blog.image}`}
-                  blog={blog}
-                  content={blog.content}
-                />
+                <div className="relative">
+                  <BlogCard
+                    title={blog.title}
+                    author={blog.author}
+                    image={`http://localhost:8000/images/${blog.image}`}
+                    blog={blog}
+                    content={blog.content}
+                  />
+                </div>
               </li>
             ))}
           </ul>

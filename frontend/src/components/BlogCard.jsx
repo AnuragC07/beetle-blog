@@ -1,9 +1,14 @@
 import React from "react";
-import pic from "../assets/pexels-kyle-miller-20272816.jpg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
+
 const BlogCard = ({ title, author, image, blog, content }) => {
+  // Function to strip HTML tags from content
+  const stripHtmlTags = (htmlContent) => {
+    return htmlContent.replace(/<[^>]*>?/gm, " ");
+  };
+
   return (
     <div>
       <div className="border border-stone-100 rounded-xl shadow-md w-11/12 h-80 flex flex-row justify-around gap-10 m-5 ml-14 p-5 mt-5 bg-white">
@@ -16,7 +21,7 @@ const BlogCard = ({ title, author, image, blog, content }) => {
             by {author}
           </p>
           <h2 className="font-subtitle text-stone-800 mt-6 max-h-24 overflow-hidden ">
-            {content}
+            {stripHtmlTags(content)} {/* Render content without HTML tags */}
           </h2>
           <div className="w-full flex justify-end items-end mr-5">
             <button className="bg-stone-800 text-white h-10 w-40 text-sm p-1 font-subtitle mt-5 rounded-md font-light items-end">
