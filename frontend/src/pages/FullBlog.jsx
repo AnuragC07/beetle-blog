@@ -27,7 +27,7 @@ const FullBlog = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-10">
         <div className="m-5 mt-5 flex flex-col w-2/4">
           <div className="text-left items-start pl-2">
             <h1 className="text-5xl font-bold font-title text-stone-700 w-full text-left items-left">

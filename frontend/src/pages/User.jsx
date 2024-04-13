@@ -117,7 +117,7 @@ const User = () => {
             No published blogs
           </p>
         ) : (
-          <ul>
+          <ul className="mt-16">
             {blogs.map((blog, index) => (
               <li key={index} className="mb-4">
                 {blog.author === username && (

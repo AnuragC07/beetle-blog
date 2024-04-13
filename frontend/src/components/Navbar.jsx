@@ -22,12 +22,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between m-5">
+    <div className="flex flex-row justify-between p-4 fixed top-0 w-full bg-white backdrop-blur-xl h-16 z-40">
       <Link to="/home">
         <img src={Logo} alt="" />
       </Link>
 
-      <div id="lists" className="flex justify-center items-center gap-8 mr-10">
+      <div
+        id="lists"
+        className="flex justify-center items-center gap-8 mr-10 p-4"
+      >
         <Link
           to="/create"
           className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-28 border-2 border-stone-100"
@@ -56,12 +59,9 @@ const Navbar = () => {
             </p>
             {/* Logout Modal */}
             {showLogoutModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                <div className="bg-white flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg shadow-lg h-60">
+              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 h-screen">
+                <div className="bg-white flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg  mt-0 shadow-lg h-40 z-40">
                   <div>
-                    <h2 className="text-xl font-bold mb-4font-subtitle ">
-                      Logout
-                    </h2>
                     <p>Are you sure you want to logout?</p>
                   </div>
                   <div className="mt-4 flex gap-5  justify-end">

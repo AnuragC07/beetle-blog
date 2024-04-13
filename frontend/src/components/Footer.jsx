@@ -7,7 +7,12 @@ const Footer = () => {
       <img src={Logo} alt="" />
       <div className="flex flex-col justify-center items-center text-white">
         <p className="mt-10 mb-2 text-white">About Us</p>
-        <p className=" text-white">Made with 🤍 by Anurag C07</p>
+        <a
+          href="https://github.com/AnuragC07"
+          className=" text-white hover:underline"
+        >
+          Made with 🤍 by Anurag
+        </a>
       </div>
     </div>
   );

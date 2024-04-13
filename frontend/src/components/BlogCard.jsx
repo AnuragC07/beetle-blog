@@ -17,7 +17,7 @@ const BlogCard = ({ title, author, image, blog, content }) => {
           <h1 className="text-3xl font-title text-stone-700 font-semibold">
             {title}
           </h1>
-          <p className="font-subtitle text-stone-500 cursor-pointer mt-2 font-medium ">
+          <p className="font-subtitle border-l-4 border-stone-300 pl-2 text-stone-500 cursor-pointer mt-2 font-medium ">
             by {author}
           </p>
           <h2 className="font-subtitle text-stone-800 mt-6 max-h-24 overflow-hidden ">
