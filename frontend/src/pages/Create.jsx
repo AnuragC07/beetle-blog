@@ -155,7 +155,7 @@ const Create = () => {
                   ["clean"],
                 ],
               }}
-              className="h-40"
+              className="h-60"
             />
 
             <div className="flex justify-center items-center">

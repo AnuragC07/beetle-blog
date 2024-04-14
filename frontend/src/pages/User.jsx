@@ -100,7 +100,7 @@ const User = () => {
               alt=""
               className="h-32 w-32 rounded-full border border-gray-400 bg-contain cursor-pointer"
             /> */}
-            <h1 className="text-4xl font-bold font-title text-stone-700 mt-36">
+            <h1 className="text-4xl font-bold font-subtitle text-stone-700 mt-36">
               {username}
             </h1>
           </div>
