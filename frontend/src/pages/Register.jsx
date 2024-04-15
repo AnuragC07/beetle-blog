@@ -35,8 +35,8 @@ const Register = () => {
     <div>
       <img src={Logo} alt="beetle logo" className="m-5" />
       <div id="body" className="flex flex-col justify-center items-center">
-        <div className="flex flex-col gap-5 mt-10 justify-center items-center">
-          <h1 className="text-5xl font-medium  text-stone-700 font-title">
+        <div className="flex flex-col gap-5 mt-2 lg:mt-10 justify-center items-center">
+          <h1 className="text-4xl lg:text-5xl font-medium  text-stone-700 font-title">
             Glad to have you here!
           </h1>
           <h3 className="text-xl font-subtitle text-stone-400 font-semibold">
@@ -45,7 +45,7 @@ const Register = () => {
         </div>
 
         <form
-          className="border border-zinc-100 bg-white rounded-xl shadow-lg w-1/4 m-5 mt-10 flex flex-col gap-3 p-10 pl-11"
+          className="w-3/4 border border-zinc-100 bg-white rounded-xl shadow-lg lg:w-1/4 m-5 mt-10 flex flex-col gap-1 lg:gap-3 p-8 lg:p-10 pl-11"
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col ">
@@ -89,7 +89,7 @@ const Register = () => {
           </div>
           <div>
             <button
-              className="bg-stone-800 text-white h-10 text-sm p-1 w-full mt-10 rounded-md font-subtitle font-medium"
+              className="bg-stone-800 text-white h-10 text-sm p-1 w-full mt-6  lg:mt-10 rounded-md font-subtitle font-medium"
               type="submit"
             >
               Sign up

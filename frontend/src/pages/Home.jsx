@@ -77,10 +77,10 @@ const Home = () => {
       <div id="vw1" className="flex justify-around m-10 mt-20 gap-20">
         <div className="flex flex-col justify-around items-start gap-10">
           <div className="mt-10">
-            <h1 className="text-5xl text-stone-700 font-title">
+            <h1 className="text-4xl lg:text-5xl text-stone-700 font-title">
               {greeting}, {username}.
             </h1>
-            <h3 className="text-4xl font-subtitle w-10/12 text-stone-400 font-medium mt-10">
+            <h3 className="text-2xl lg:text-4xl font-subtitle w-10/12 text-stone-400 font-medium mt-5 lg:mt-10">
               Welcome back on Beetle, check out fresh articles served just for
               you!
             </h3>
@@ -92,13 +92,13 @@ const Home = () => {
             Explore <TrendingFlatRoundedIcon className="ml-1" />
           </button>
         </div>
-        <img src={heroimg} alt="" className="w-2/4" />
+        <img src={heroimg} alt="" className="hidden lg:block lg:w-2/4" />
       </div>
       <div
         id="latest-articles"
         className="bg-stone-100 rounded-t-3xl p-5 mt-24"
       >
-        <h1 className="text-4xl font-subtitle font-medium text-stone-500 m-5 mb-10">
+        <h1 className="text-4xl font-subtitle font-medium text-stone-500 m-2 lg:m-5 mb-10">
           Latest stories
         </h1>
         <div className="mt-5">

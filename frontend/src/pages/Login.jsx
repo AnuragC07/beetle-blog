@@ -66,7 +66,7 @@ const Login = () => {
       <img src={Logo} alt="beetle logo" className="m-5" />
       <div id="body" className="flex flex-col justify-center items-center">
         <div className="flex flex-col gap-5 mt-10 justify-center items-center">
-          <h1 className="text-5xl font-medium  text-stone-700 font-title">
+          <h1 className="text-4xl lg:text-5xl font-medium  text-stone-700 font-title">
             Welcome back!
           </h1>
           <h3 className="text-xl font-subtitle text-stone-400 font-semibold">
@@ -75,7 +75,7 @@ const Login = () => {
         </div>
 
         <form
-          className="border border-zinc-100 bg-white rounded-xl shadow-lg w-1/4 m-8 mt-10 flex flex-col gap-5 p-10 pl-11"
+          className="w-3/4 border border-zinc-100 bg-white rounded-xl shadow-lg lg:w-1/4 m-8 mt-10 flex flex-col gap-5 p-10 pl-11"
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col ">
@@ -105,7 +105,7 @@ const Login = () => {
             />
           </div>
           <div>
-            <button className="bg-stone-800 text-white h-10 text-sm p-1 w-full mt-20 rounded-md font-subtitle font-medium">
+            <button className=" mt-5 bg-stone-800 text-white h-10 text-sm p-1 w-full lg:mt-20 rounded-md font-subtitle font-medium">
               Sign in
             </button>
           </div>
