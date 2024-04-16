@@ -92,7 +92,7 @@ const User = () => {
   return (
     <div>
       <Navbar />
-      <div className="bg-gray-300  h-32 w-11/12 ml-14 m-5">
+      <div className="bg-gray-300  h-32 w-11/12 lg:ml-14 m-5">
         <div className="top-28 left-10">
           <div className="flex items-center justify-center gap-8">
             {/* <img
@@ -100,13 +100,13 @@ const User = () => {
               alt=""
               className="h-32 w-32 rounded-full border border-gray-400 bg-contain cursor-pointer"
             /> */}
-            <h1 className="text-4xl font-bold font-subtitle text-stone-700 mt-36">
+            <h1 className="text-3xl lg:text-4xl font-bold font-subtitle text-stone-700 mt-36">
               {username}
             </h1>
           </div>
         </div>
       </div>
-      <div className="mt-5 ml-14">
+      <div className="mt-5 ml-2 mr-2 lg:ml-14">
         <h2 className="text-2xl font-bold mb-3 mt-28 font-subtitle text-stone-400">
           Your Blogs
         </h2>
@@ -123,7 +123,7 @@ const User = () => {
                 {blog.author === username && (
                   <button
                     onClick={() => openDeleteModal(blog)}
-                    className="text-stone-600 mt-2 absolute right-8 z-30 "
+                    className="text-red-800 mt-8 shadow-xl border-2 border-stone-100 w-10 h-10  bg-white rounded-full absolute right-5 lg:right-60 z-30 "
                   >
                     <DeleteRoundedIcon />
                   </button>

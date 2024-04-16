@@ -74,14 +74,14 @@ const Create = () => {
         <h1 className="text-4xl font-subtitle font-semibold text-stone-600">
           Write your story
         </h1>
-        <div className="p-5 mt-5 flex flex-col w-full justify-center items-center">
+        <div className="p-5 mt-5 flex h-screen flex-col w-full justify-start lg:justify-center items-center">
           <div className="w-4/5 flex flex-col">
             {/* <label className="text-lg text-slate-400 font-normal">
               Article Title
             </label> */}
             <input
               type="text"
-              className="border-b-2 border-stone-200 w-full bg-white h-16 pl-3  mt-1  mb-5 focus:border-stone-600 focus:outline-none text-4xl font-medium font-title"
+              className=" border-b-2 border-stone-200 w-full bg-white h-16 pl-3  mt-1 mb-2 lg:mb-5 focus:border-stone-600 focus:outline-none text-2xl lg:text-4xl font-medium font-title"
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -97,7 +97,7 @@ const Create = () => {
             ></FileInput> */}
             <label
               htmlFor="file-input"
-              className="mt-5 rounded-lg font-medium font-title text-3xl text-stone-500 p-2 cursor-pointer mb-10"
+              className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-2xl lg:text-3xl text-stone-500 p-2 cursor-pointer mb-5 lg:mb-10"
             >
               {" "}
               Add Image
@@ -155,12 +155,13 @@ const Create = () => {
                   ["clean"],
                 ],
               }}
-              className="h-60"
+              className="h-52 mt-5 lg:h-60"
             />
 
             <div className="flex justify-center items-center">
               <button
-                className="bg-zinc-800 text-white h-10 text-sm p-1 font-subtitle font-medium w-4/5 mt-16 rounded-md"
+                className="bg-zinc-800 text-white h-10 text-sm p-1 font-subtitle font-medium w-4/5 
+                mt-28 lg:mt-16 rounded-md"
                 onClick={handleSaveBlog}
               >
                 Publish

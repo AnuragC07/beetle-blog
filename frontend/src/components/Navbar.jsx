@@ -100,7 +100,7 @@ const Navbar = () => {
       </div>
       {/* Hamburger Menu Icon */}
       <MenuIcon
-        className="lg:text-white lg:cursor-default block cursor-pointer text-stone-700 mr-4"
+        className="relative lg:text-white lg:cursor-default flex lg: cursor-pointer text-stone-700 mr-4"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       />
 
@@ -108,7 +108,7 @@ const Navbar = () => {
       <div
         className={`${
           isMenuOpen ? "flex" : "hidden"
-        } lg:hidden flex-col bg-white h-fit rounded-lg shadow-xl  lg:flex-row lg:justify-center lg:items-center gap-8 m-0 lg:mr-10 p-4 ease-in`}
+        } absolute right-4 top-10 lg:hidden flex-col bg-white h-fit  rounded-lg shadow-xl  lg:flex-row lg:justify-center lg:items-center gap-8 m-0 lg:mr-10 p-4 ease-in`}
       >
         <Link
           to="/create"
@@ -138,7 +138,7 @@ const Navbar = () => {
             </p>
             {/* Logout Modal */}
             {showLogoutModal && (
-              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 h-screen">
+              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 h-screen mt-20">
                 <div className="bg-white flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg  mt-0 shadow-lg h-40 z-40">
                   <div>
                     <p>Are you sure you want to logout?</p>
