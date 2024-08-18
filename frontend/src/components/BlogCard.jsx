@@ -18,10 +18,10 @@ const BlogCard = ({ title, author, image, blog, content }) => {
           className="lg:h-full lg:ml-5 rounded-xl lg:w-full lg:max-w-md w-32 h-28"
         />
         <div className="w-9/12 h-80">
-          <h1 className="text-base lg:text-3xl font-title text-stone-700 font-semibold">
+          <h1 className="text-base max-h-20 min-h-20 lg:max-h-24 lg:text-3xl font-title text-stone-700 font-semibold overflow-hidden">
             {title}
           </h1>
-          <p className="text-xs lg:text-base font-subtitle border-l-4 border-stone-300 pl-2 text-stone-500 cursor-pointer mt-2 font-medium ">
+          <p className="text-xs max-h-5 lg:text-base font-subtitle border-l-4 border-stone-300 pl-2 text-stone-500 cursor-pointer mt-2 font-medium ">
             by {author}
           </p>
           <h2 className="font-subtitle text-stone-800 mt-6 text-xs lg:text-base max-h-12 lg:max-h-24  overflow-hidden ">

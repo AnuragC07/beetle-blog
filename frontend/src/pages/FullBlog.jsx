@@ -10,7 +10,7 @@ const FullBlog = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/${id}`)
+      .get(`https://beetle-backend.onrender.com/${id}`)
       .then((response) => {
         setBlog(response.data);
       })
@@ -42,7 +42,7 @@ const FullBlog = () => {
           </div>
           <hr />
           <img
-            src={`http://localhost:8000/images/${blog.image}`}
+            src={`https://beetle-backend.onrender.com/images/${blog.image}`}
             alt=""
             className="h-1/2 w-full rounded-md mt-10"
           />

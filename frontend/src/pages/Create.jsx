@@ -52,7 +52,7 @@ const Create = () => {
     formdata.append("content", content);
     // console.log(formdata);
     axios
-      .post("http://localhost:8000/", formdata, {
+      .post("https://beetle-backend.onrender.com/", formdata, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
