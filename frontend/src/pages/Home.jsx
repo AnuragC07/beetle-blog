@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 import BlogCard from "../components/BlogCard";
 import Footer from "../components/Footer";
@@ -60,7 +60,7 @@ const Home = () => {
         setBlogs(response.data.data);
         // console.log(response.data.data);
       })
-      .catch((error) => {
+      .catch(() => {
         // console.log("Axios Error:", error);
       });
   }, []);
@@ -77,7 +77,7 @@ const Home = () => {
       <div id="vw1" className="flex justify-around m-10 mt-20 gap-20">
         <div className="flex flex-col justify-around items-start gap-10">
           <div className="mt-10">
-            <h1 className="text-4xl lg:text-5xl text-stone-700 font-title">
+            <h1 className="text-4xl lg:text-5xl text-red-700 font-title">
               {greeting}, {username}.
             </h1>
             <h3 className="text-2xl lg:text-4xl font-subtitle w-10/12 text-stone-400 font-medium mt-5 lg:mt-10">

@@ -8,11 +8,14 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
+import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
+
 
 const Create = () => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [title, setTitle] = useState("");
+  const [magicTitle, setMagicTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
   const navigate = useNavigate();
@@ -67,15 +70,43 @@ const Create = () => {
       });
   };
 
+  async function generateMagicTitle() {
+    setTitle("Generating Title...");
+
+    try {
+      const response = await axios({
+        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCqiytAeq3_LOF7-hJaUKxPaH5XMICEy2U",
+        method: "post",
+        data: {
+          contents: [
+            {
+              parts: [{
+                text: `Generate a short, concise and engaging title for the following content within a few words: ${content}`,
+              },],
+            },
+          ],
+          // Add any specific parameters or prompt settings needed to tailor the output
+        },
+      });
+
+      // Assuming the title is generated in the first candidate of the response
+      setTitle(response.data.candidates[0].content.parts[0].text);
+    } catch (error) {
+      console.error("Error generating title:", error);
+      setTitle("Failed to generate title. Please try again.");
+    }
+  }
+
+
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="text-4xl font-subtitle font-semibold text-stone-600">
+      <div className="flex flex-col justify-center items-center pt-12">
+        {/* <h1 className="text-4xl font-subtitle font-light text-stone-400 ">
           Write your story
-        </h1>
-        <div className="p-5 mt-5 flex h-screen flex-col w-full justify-start lg:justify-center items-center">
-          <div className="w-4/5 flex flex-col">
+        </h1> */}
+        <div className="lg:mt-40 flex h-screen flex-col w-full justify-start lg:justify-center items-center mt-4">
+          <div className="w-11/12 lg:w-4/5 flex flex-col">
             {/* <label className="text-lg text-slate-400 font-normal">
               Article Title
             </label> */}
@@ -86,6 +117,14 @@ const Create = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+            <button
+                className="bg-zinc-400 text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
+              rounded-md hover:shadow-md"
+                onClick={generateMagicTitle}
+              >
+                <AutoAwesomeRoundedIcon className="mr-4 text-xs"/> 
+                Generate a Magic title
+              </button>
             {/* <label className="text-lg text-slate-400 font-normal">
               Article Image
             </label> */}
@@ -122,7 +161,7 @@ const Create = () => {
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="w-full rounded-lg"
+                  className="lg:w-1/3 w-3/5  rounded-lg"
                 />
               </div>
             )}
@@ -136,6 +175,7 @@ const Create = () => {
               className="border border-slate-400 w-full bg-white rounded-md my-2 px-5 py-5 min-h-60 text-slate-600 font-normal text-xl"
               placeholder="Start writing your Blog"
             /> */}
+            
             <ReactQuill
               value={content}
               onChange={setContent}
@@ -161,7 +201,7 @@ const Create = () => {
             <div className="flex justify-center items-center">
               <button
                 className="bg-zinc-800 text-white h-10 text-sm p-1 font-subtitle font-medium w-4/5 
-                mt-28 lg:mt-16 rounded-md"
+                mt-28 lg:mt-16 rounded-md mb-8"
                 onClick={handleSaveBlog}
               >
                 Publish
