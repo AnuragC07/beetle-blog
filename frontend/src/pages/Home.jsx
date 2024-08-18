@@ -55,7 +55,7 @@ const Home = () => {
 
     // Send the GET request with the token included in the headers
     axios
-      .get("http://localhost:8000/", config)
+      .get("https://beetle-backend.onrender.com/", config)
       .then((response) => {
         setBlogs(response.data.data);
         // console.log(response.data.data);
@@ -110,7 +110,7 @@ const Home = () => {
                 key={index}
                 title={blog.title}
                 author={blog.author}
-                image={`http://localhost:8000/images/${blog.image}`}
+                image={`https://beetle-backend.onrender.com/images/${blog.image}`}
                 blog={blog}
                 content={blog.content}
               />

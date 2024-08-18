@@ -18,7 +18,7 @@ const Login = () => {
 
   // Create an Axios instance with default configuration
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:8000", // Your server base URL
+    baseURL: "https://beetle-backend.onrender.com", // Your server base URL
     headers: {
       "Content-Type": "application/json",
     },
@@ -30,7 +30,6 @@ const Login = () => {
       const token = getToken();
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
-        // console.log(token);
       }
       return config;
     },
@@ -41,6 +40,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    toast.loading("Logging in..."); // Show loading toast
     try {
       const response = await axiosInstance.post("/signin", {
         email,
@@ -58,6 +58,8 @@ const Login = () => {
     } catch (error) {
       console.error("Login Error:", error);
       toast.error("Invalid Email or Password! Please try again.");
+    } finally {
+      toast.dismiss(); // Dismiss loading toast when login process ends
     }
   };
 
