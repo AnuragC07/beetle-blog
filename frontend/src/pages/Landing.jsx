@@ -17,16 +17,16 @@ const Landing = () => {
             className="hidden  w-full lg:flex justify-center items-center ml-15 h-screen p-10 mr-16"
           />
         </div>
-        <div className="w-full h-screen flex flex-col justify-between  pl-10  lg:w-2/4 p-16 bg-stone-100 shadow-xl ">
+        <div className="w-full h-screen flex flex-col justify-between  pl-5 lg:pl-10  lg:w-2/4 p-10 lg:p-16 bg-stone-100 shadow-xl ">
           <div>
             <h1 className="text-6xl font-title w-3/4">Empowering Minds.</h1>
-            <h2 className="text-3xl lg:text-4xl font-subtitle w-3/4 text-stone-400 font-semibold mt-10">
+            <h2 className="text-3xl lg:text-4xl font-subtitle w-3/4 text-blue-500 font-semibold mt-10">
               Discover stories from all around the world
               <br /> or let your own ideas take flight!
             </h2>
           </div>
           <Link to="/signin">
-            <button className="mt-12 bg-stone-900 text-white px-5 py-2 w-32 rounded-md mb-5">
+            <button className="mt-10 bg-stone-900 text-white px-5 py-2 w-32 rounded-md mb-5">
               Get started
             </button>
           </Link>
