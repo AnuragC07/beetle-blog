@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import React from 'react';
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { Select, FileInput } from "flowbite-react";
+// import { Select, FileInput } from "flowbite-react";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,14 +12,17 @@ import toast from "react-hot-toast";
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 
 
+
 const Create = () => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [title, setTitle] = useState("");
-  const [magicTitle, setMagicTitle] = useState("");
+  // const [magicTitle, setMagicTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
   const navigate = useNavigate();
+
+  const apiKey = process.env.REACT_APP_GEMINI_API_KEY; //total process for env is this - define env var, define eslint node:true, change the vite.config file (as shown in the dev article https://dev.to/boostup/uncaught-referenceerror-process-is-not-defined-12kg) then the error should be resolved. The env var should start with REACT_APP_...
 
   // const handleImageChange = (e) => {
   //   setFile (e.target.files[0]);
@@ -60,12 +64,12 @@ const Create = () => {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       })
-      .then((res) => {
+      .then(() => {
         toast.success("Blog Published!");
         // console.log(res);
         navigate("/home");
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("Error occurred! Please fill out all fields");
       });
   };
@@ -75,17 +79,18 @@ const Create = () => {
 
     try {
       const response = await axios({
-        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCqiytAeq3_LOF7-hJaUKxPaH5XMICEy2U",
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
         method: "post",
         data: {
           contents: [
             {
-              parts: [{
-                text: `Generate a short, concise and engaging title for the following content within a few words: ${content}`,
-              },],
+              parts: [
+                { 
+                  text: `Generate a short, concise, and engaging title for the following content within a few words: ${content}` 
+                },
+              ],
             },
           ],
-          // Add any specific parameters or prompt settings needed to tailor the output
         },
       });
 
