@@ -112,7 +112,7 @@ const Home = () => {
                 author={blog.author}
                 image={`https://beetle-backend.onrender.com/images/${blog.image}`}
                 blog={blog}
-                content={blog.content}
+                // content={blog.content}
               />
             ))}
         </div>

@@ -33,7 +33,7 @@ const FullBlog = () => {
             <h1 className="text-4xl lg:text-5xl font-bold font-title text-stone-700 w-full text-left items-left mt-4 lg:mt-14">
               {blog.title}
             </h1>
-            <p className="text-lg lg:text-xl text-stone-400 cursor-pointer font-subtitle font-semibold flex mt-5 mb-5">
+            <p className="text-lg lg:text-xl border-l-4 border-stone-400 text-stone-400 pl-2 cursor-pointer font-subtitle font-semibold flex mt-5 mb-5">
               by {blog.author}
               <div className="font-subtitle font-semibold text-xl ml-2">
                 {formatCreatedAt(blog.createdAt)}
