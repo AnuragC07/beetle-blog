@@ -16,23 +16,23 @@ const BlogCard = ({ title, author, image, blog }) => {
 
   return (
     <div className="flex m-auto justify-center">
-      <div className="relative border border-stone-100 rounded-xl shadow-lg w-full lg:w-8/12 h-64 lg:h-fit flex flex-row justify-around gap-5 lg:gap-10 m-0 lg:m-5 lg:ml-14 p-5 mt-5 bg-white overflow-hidden hover:shadow-xl">
+      <div className="relative border rounded-2xl shadow-lg w-full lg:w-8/12 h-52 lg:h-72 flex flex-row justify-around gap-5 lg:gap-10 m-0 lg:m-5 lg:ml-14 p-5 mt-5 bg-white overflow-hidden hover:shadow-xl">
         <img
           src={image}
           alt=""
           className="absolute inset-0 w-full h-full object-cover rounded-xl"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-40 rounded-xl"></div>
-        <div className="relative z-10 flex flex-col justify-between h-52 w-full text-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-red/70 via-black/50 to-transparent rounded-xl"></div>
+        <div className="relative z-10 flex flex-col justify-between h-44 lg:h-64 w-full text-white">
           <div>
-            <h1 className="text-base max-w-full lg:max-h-24 lg:text-2xl font-title font-semibold overflow-hidden hover:cursor-pointer">
+            <h1 className=" max-w-full lg:max-h-24 lg:text-2xl text-xl font-title font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
               {title}
             </h1>
             <div className="flex gap-2">
-              <p className="text-xs text-white lg:text-base font-subtitle border-l-4 border-stone-500 pl-2 mt-2 font-medium">
+              <p className="text-xs text-stone-400 lg:text-base font-subtitle border-l-4 border-stone-500 pl-2 mt-2 font-extralight">
                 by {author}
               </p>
-              <p className="text-xs text-stone-300 lg:text-base font-subtitle pl-2 mt-2 font-medium">
+              <p className="text-xs text-stone-400 lg:text-base font-subtitle pl-2 mt-2 font-extralight">
                 {formatCreatedAt(blog.createdAt)}
               </p>
             </div>
