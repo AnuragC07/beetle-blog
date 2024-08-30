@@ -77,7 +77,7 @@ const Home = () => {
       <div id="vw1" className="flex justify-around m-10 mt-20 gap-20">
         <div className="flex flex-col justify-around items-start gap-10">
           <div className="mt-10">
-            <h1 className="text-4xl lg:text-5xl text-red-700 font-title">
+            <h1 className="text-4xl lg:text-5xl text-blue-700 font-title">
               {greeting}, {username}.
             </h1>
             <h3 className="text-2xl lg:text-4xl font-subtitle w-10/12 text-stone-400 font-medium mt-5 lg:mt-10">
