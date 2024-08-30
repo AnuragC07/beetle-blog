@@ -22,7 +22,7 @@ const Create = () => {
   const [file, setFile] = useState("");
   const navigate = useNavigate();
 
-  const apiKey = process.env.REACT_APP_GEMINI_API_KEY; //total process for env is this - define env var, define eslint node:true, change the vite.config file (as shown in the dev article https://dev.to/boostup/uncaught-referenceerror-process-is-not-defined-12kg) then the error should be resolved. The env var should start with REACT_APP_...
+  // const apiKey = process.env.REACT_APP_GEMINI_API_KEY; //total process for env is this - define env var, define eslint node:true, change the vite.config file (as shown in the dev article https://dev.to/boostup/uncaught-referenceerror-process-is-not-defined-12kg) then the error should be resolved. The env var should start with REACT_APP_...
 
   // const handleImageChange = (e) => {
   //   setFile (e.target.files[0]);
@@ -82,10 +82,16 @@ const Create = () => {
   async function generateMagicTitle() {
     setTitle("Generating Title...");
   
+    const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
+    console.log("API Key (first 5 chars):", apiKey.substring(0, 5) + "...");
+  
     try {
       const response = await axios({
-        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent`,
         method: "post",
+        params: {
+          key: apiKey
+        },
         data: {
           contents: [
             {
@@ -97,16 +103,20 @@ const Create = () => {
             },
           ],
         },
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
   
-      // Assuming the title is generated in the first candidate of the response
+      console.log("API Response:", response.data);
       setTitle(response.data.candidates[0].content.parts[0].text);
     } catch (error) {
       console.error("Error generating title:", error);
       console.error("Error details:", error.response ? error.response.data : error.message);
-      setTitle(`Failed to generate title: ${error.message}`);
+      setTitle(`Failed to generate title: ${error.response ? JSON.stringify(error.response.data) : error.message}`);
     }
   }
+  
 
 
   return (
