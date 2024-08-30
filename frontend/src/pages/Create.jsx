@@ -81,7 +81,7 @@ const Create = () => {
 
   async function generateMagicTitle() {
     setTitle("Generating Title...");
-
+  
     try {
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
@@ -98,12 +98,13 @@ const Create = () => {
           ],
         },
       });
-
+  
       // Assuming the title is generated in the first candidate of the response
       setTitle(response.data.candidates[0].content.parts[0].text);
     } catch (error) {
       console.error("Error generating title:", error);
-      setTitle("Failed to generate title. Please try again. ");
+      console.error("Error details:", error.response ? error.response.data : error.message);
+      setTitle(`Failed to generate title: ${error.message}`);
     }
   }
 
