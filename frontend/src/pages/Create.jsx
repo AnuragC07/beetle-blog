@@ -22,7 +22,7 @@ const Create = () => {
   const [file, setFile] = useState("");
   const navigate = useNavigate();
 
-  // const apiKey = process.env.REACT_APP_GEMINI_API_KEY; //total process for env is this - define env var, define eslint node:true, change the vite.config file (as shown in the dev article https://dev.to/boostup/uncaught-referenceerror-process-is-not-defined-12kg) then the error should be resolved. The env var should start with REACT_APP_...
+  const apiKey = process.env.REACT_APP_GEMINI_API_KEY; //total process for env is this - define env var, define eslint node:true, change the vite.config file (as shown in the dev article https://dev.to/boostup/uncaught-referenceerror-process-is-not-defined-12kg) then the error should be resolved. The env var should start with REACT_APP_...
 
   // const handleImageChange = (e) => {
   //   setFile (e.target.files[0]);
