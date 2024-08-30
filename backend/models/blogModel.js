@@ -6,6 +6,10 @@ const blogSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        category: {
+            type: String,
+            required: true,
+        },
         author: String,
         authorId: {
             type: mongoose.Schema.Types.ObjectId,

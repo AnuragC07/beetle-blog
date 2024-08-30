@@ -17,7 +17,7 @@ const Create = () => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [title, setTitle] = useState("");
-  // const [magicTitle, setMagicTitle] = useState("");
+  const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
   const navigate = useNavigate();
@@ -39,6 +39,10 @@ const Create = () => {
     setImagePreview(null);
   };
 
+  const handleCategory = (e) => {
+    setCategory(e.target.value);
+  }
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
@@ -55,6 +59,7 @@ const Create = () => {
   const handleSaveBlog = () => {
     const formdata = new FormData();
     formdata.append("title", title);
+    formdata.append("category", category);
     formdata.append("file", file);
     formdata.append("content", content);
     // console.log(formdata);
@@ -139,6 +144,30 @@ const Create = () => {
               onChange={handleFileChange}
               className="mt-2 rounded-lg border-2"
             ></FileInput> */}
+            <select
+                className="cursor-pointer border mt-4 border-stone-400 outline-none text-xs font-semibold rounded-xl px-3 py-1 bg-stone-100"
+                value={category}
+                onChange={handleCategory}
+              >
+                <option
+                  value="Book"
+                  className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+                >
+                  Book
+                </option>
+                <option
+                  value="Notes"
+                  className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+                >
+                  Notes
+                </option>
+                <option
+                  value="Donation"
+                  className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+                >
+                  Donation
+                </option>
+              </select>
             <label
               htmlFor="file-input"
               className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-2xl lg:text-3xl text-stone-500 p-2 cursor-pointer mb-5 lg:mb-10"
