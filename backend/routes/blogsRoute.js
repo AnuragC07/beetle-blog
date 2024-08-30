@@ -64,6 +64,7 @@ router.post('/', jwtAuthMiddleware, extractUsernameFromToken, upload.single('fil
             title: req.body.title,
             author: req.username,
             authorId: req.user.id,
+            category: req.body.category,
             image: req.file.filename,
             content: req.body.content
         };

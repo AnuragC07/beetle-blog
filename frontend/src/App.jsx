@@ -8,6 +8,7 @@ import FullBlog from "./pages/FullBlog";
 import User from "./pages/User";
 import Create from "./pages/Create";
 import Landing from "./pages/Landing";
+import Test from "./pages/Test";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/fullblog/:id" element={<FullBlog />} />
         <Route path="/user" element={<User />} />
         <Route path="/create" element={<Create />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </div>
   );
