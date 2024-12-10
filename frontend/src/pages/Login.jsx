@@ -18,7 +18,7 @@ const Login = () => {
 
   // Create an Axios instance with default configuration
   const axiosInstance = axios.create({
-    baseURL: "https://beetle-backend.onrender.com", // Your server base URL
+    baseURL: "http://localhost:8000/", // Your server base URL
     headers: {
       "Content-Type": "application/json",
     },

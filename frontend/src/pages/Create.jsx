@@ -1,5 +1,5 @@
 import { useState } from "react";
-import React from 'react';
+import React from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +9,7 @@ import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRou
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import toast from "react-hot-toast";
-import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
-
-
+import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 
 const Create = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -41,7 +39,7 @@ const Create = () => {
 
   const handleCategory = (e) => {
     setCategory(e.target.value);
-  }
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -64,7 +62,7 @@ const Create = () => {
     formdata.append("content", content);
     // console.log(formdata);
     axios
-      .post("https://beetle-backend.onrender.com/", formdata, {
+      .post("http://localhost:8000/", formdata, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
@@ -81,7 +79,7 @@ const Create = () => {
 
   async function generateMagicTitle() {
     setTitle("Generating Title...");
-  
+
     try {
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
@@ -90,28 +88,26 @@ const Create = () => {
           contents: [
             {
               parts: [
-                { 
-                  text: `Generate a short, concise, and engaging title for the following content within a few words: ${content}` 
+                {
+                  text: `Generate a short, concise, and engaging title for the following content within a few words: ${content}`,
                 },
               ],
             },
           ],
         },
       });
-  
+
       setTitle(response.data.candidates[0].content.parts[0].text);
     } catch (error) {
       console.error("Error generating title:", error);
       setTitle("Failed to generate title. Please try again.");
     }
   }
-  
-
 
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col justify-center items-center pt-12">
+      <div className="flex flex-col justify-center items-center pt-12 bg-stone-900">
         {/* <h1 className="text-4xl font-subtitle font-light text-stone-400 ">
           Write your story
         </h1> */}
@@ -122,19 +118,19 @@ const Create = () => {
             </label> */}
             <input
               type="text"
-              className=" border-b-2 border-stone-200 w-full bg-white h-16 pl-3  mt-1 mb-2 lg:mb-5 focus:border-stone-600 focus:outline-none text-2xl lg:text-4xl font-medium font-title"
-              placeholder="Title"
+              className=" border-b-2 border-stone-600 w-full bg-stone-900 h-16 pl-3  mt-1 mb-2 lg:mb-5 focus:border-stone-600 focus:outline-none text-2xl lg:text-4xl font-medium font-title text-stone-100 placeholder:text-stone-700"
+              placeholder="Article Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <button
-                className="bg-zinc-400 text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
+              className="bg-zinc-800 text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
               rounded-md hover:shadow-md"
-                onClick={generateMagicTitle}
-              >
-                <AutoAwesomeRoundedIcon className="mr-4 text-xs"/> 
-                Generate a Magic title
-              </button>
+              onClick={generateMagicTitle}
+            >
+              <AutoAwesomeRoundedIcon className="mr-4 text-xs" />
+              Generate a Magic title
+            </button>
             {/* <label className="text-lg text-slate-400 font-normal">
               Article Image
             </label> */}
@@ -145,29 +141,29 @@ const Create = () => {
               className="mt-2 rounded-lg border-2"
             ></FileInput> */}
             <select
-                className="cursor-pointer border mt-4 border-stone-400 outline-none text-xs font-semibold rounded-xl px-3 py-1 bg-stone-100"
-                value={category}
-                onChange={handleCategory}
+              className="cursor-pointer border mt-4 border-stone-400 outline-none text-xs font-semibold rounded-xl px-3 py-1 bg-stone-900 text-stone-100"
+              value={category}
+              onChange={handleCategory}
+            >
+              <option
+                value="Book"
+                className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
               >
-                <option
-                  value="Book"
-                  className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
-                >
-                  Book
-                </option>
-                <option
-                  value="Notes"
-                  className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
-                >
-                  Notes
-                </option>
-                <option
-                  value="Donation"
-                  className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
-                >
-                  Donation
-                </option>
-              </select>
+                Book
+              </option>
+              <option
+                value="Notes"
+                className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+              >
+                Notes
+              </option>
+              <option
+                value="Donation"
+                className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+              >
+                Donation
+              </option>
+            </select>
             <label
               htmlFor="file-input"
               className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-2xl lg:text-3xl text-stone-500 p-2 cursor-pointer mb-5 lg:mb-10"
@@ -209,7 +205,7 @@ const Create = () => {
               className="border border-slate-400 w-full bg-white rounded-md my-2 px-5 py-5 min-h-60 text-slate-600 font-normal text-xl"
               placeholder="Start writing your Blog"
             /> */}
-            
+
             <ReactQuill
               value={content}
               onChange={setContent}

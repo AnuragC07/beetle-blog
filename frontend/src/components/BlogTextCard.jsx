@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 
-const BlogCard = ({ title, author, image, blog }) => {
+const BlogTextCard = ({ title, author, image, textblog }) => {
   // Function to strip HTML tags from content
   // const stripHtmlTags = (htmlContent) => {
   //   return htmlContent.replace(/<[^>]*>?/gm, " ");
@@ -15,27 +15,29 @@ const BlogCard = ({ title, author, image, blog }) => {
   };
 
   return (
-    <div className="flex m-auto justify-center">
-      <div className="relative border border-stone-600 rounded-2xl shadow-lg w-full lg:w-full h-52 lg:h-fit flex flex-col justify-around gap-5 lg:gap-2 m-0 lg:m-5 lg:ml-14 mt-5 bg-stone-900 overflow-hidden hover:shadow-xl">
-        <img
+    <div className="flex w-full">
+      <div className="relative border border-stone-800 shadow-lg w-full lg:w-full h-52 lg:h-fit flex flex-col justify-around gap-2 lg:gap-2 m-0 lg:m-0 lg:ml bg-stone-900 overflow-hidden hover:shadow-xl">
+        {/* <img
           src={image}
           alt="Article cover"
           className="w-full h-48 object-cover"
-        />
+        /> */}
         {/* <div className="absolute inset-0 bg-gradient-to-r from-black via-red/70 via-black/50 to-transparent rounded-xl"></div> */}
-        <Link to={`/fullblog/${blog._id}`}>
+        <Link to={`/fullblog/${textblog._id}`}>
           <div className="relative z-10 flex flex-col justify-between h-44 lg:h-fit w-full text-white p-5">
             <div>
-              <p className="font-title mb-2 text-amber-100">Environment</p>
-              <h1 className=" max-w-full lg:max-h-24 lg:text-xl text-xl font-subtitle font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
+              <p className="font-title text-base mb-2 text-amber-100">
+                Environment
+              </p>
+              <h1 className=" max-w-full lg:max-h-24 lg:text-lg text-xl font-subtitle font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
                 {title}
               </h1>
               <div className="flex gap-2">
-                <p className="text-xs text-stone-400 lg:text-base font-subtitle border-l-4 border-stone-500 pl-2 mt-2 font-extralight">
+                <p className="text-xs text-stone-400 lg:text-xs font-subtitle border-l-4 border-stone-500 pl-2 mt-2 font-extralight">
                   by {author}
                 </p>
-                <p className="text-xs text-stone-400 lg:text-base font-subtitle pl-2 mt-2 font-extralight">
-                  {formatCreatedAt(blog.createdAt)}
+                <p className="text-xs text-stone-400 lg:text-xs font-subtitle pl-2 mt-2 font-extralight">
+                  {formatCreatedAt(textblog.createdAt)}
                 </p>
               </div>
             </div>
@@ -53,12 +55,12 @@ const BlogCard = ({ title, author, image, blog }) => {
   );
 };
 
-BlogCard.propTypes = {
+BlogTextCard.propTypes = {
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  blog: PropTypes.number.isRequired,
+  textblog: PropTypes.number.isRequired,
   content: PropTypes.string,
 };
 
-export default BlogCard;
+export default BlogTextCard;

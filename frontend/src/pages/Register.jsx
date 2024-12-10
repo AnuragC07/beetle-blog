@@ -21,7 +21,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://beetle-backend.onrender.com/signup",
+        "http://localhost:8000/signup",
         formData
       );
       // console.log(response.data);
