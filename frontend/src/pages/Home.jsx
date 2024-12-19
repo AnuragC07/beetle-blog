@@ -75,7 +75,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="bg-stone-900">
       <Navbar />
       <section className="flex gap-4 w-full bg-stone-900">
         <div className="w-screen">
@@ -91,26 +91,27 @@ const Home = () => {
               </div>
             </div>
             <div>
-              <li className="flex gap-8 w-full borde text-amber-100 font-title justify-around items-center cursor-pointer">
-                <ul>
-                  <p>Enviornment</p>
+              <li className="flex gap-8 w-full borde text-amber-100 font-title justify-around items-center">
+                <ul className="cursor-pointer border text-sm border-stone-800 flex items-center bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
+                  <p>Environment</p>
                 </ul>
-                <ul>
+
+                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
                   <p>Gaming</p>
                 </ul>
-                <ul>
+                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
                   <p>Technology</p>
                 </ul>
-                <ul>
+                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
                   <p>Programming</p>
                 </ul>
-                <ul>
+                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
                   <p>AI</p>
                 </ul>
-                <ul>
+                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
                   <p>Politics</p>
                 </ul>
-                <ul>
+                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
                   <p>Sports</p>
                 </ul>
               </li>
@@ -119,6 +120,9 @@ const Home = () => {
           </div>
           <div id="latest-articles" className="bg-stone-900 rounded-t-3xl p-2">
             <div className="mt-0">
+              <h1 className="font-stylish text-[50px] ml-16 text-white">
+                #foryou
+              </h1>
               {blogs
                 .slice()
                 .reverse()

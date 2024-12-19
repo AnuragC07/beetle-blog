@@ -111,7 +111,7 @@ const Create = () => {
         {/* <h1 className="text-4xl font-subtitle font-light text-stone-400 ">
           Write your story
         </h1> */}
-        <div className="lg:mt-40 flex h-screen flex-col w-full justify-start lg:justify-center items-center mt-4">
+        <div className="lg:mt-20 flex h-screen flex-col w-full justify-start lg:justify-center items-center mt-4">
           <div className="w-11/12 lg:w-4/5 flex flex-col">
             {/* <label className="text-lg text-slate-400 font-normal">
               Article Title
@@ -124,8 +124,8 @@ const Create = () => {
               onChange={(e) => setTitle(e.target.value)}
             />
             <button
-              className="bg-zinc-800 text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
-              rounded-md hover:shadow-md"
+              className="bg-stone-700 text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
+              rounded-2xl hover:shadow-md"
               onClick={generateMagicTitle}
             >
               <AutoAwesomeRoundedIcon className="mr-4 text-xs" />
@@ -141,29 +141,54 @@ const Create = () => {
               className="mt-2 rounded-lg border-2"
             ></FileInput> */}
             <select
-              className="cursor-pointer border mt-4 border-stone-400 outline-none text-xs font-semibold rounded-xl px-3 py-1 bg-stone-900 text-stone-100"
+              className="cursor-pointer border-b-2 border-b-stone-600 mt-14 outline-none text-lg font-subtitle px-3 py-1 bg-stone-900 text-stone-100 hover:bg-stone-900"
               value={category}
               onChange={handleCategory}
             >
               <option
-                value="Book"
-                className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+                value="Environment"
+                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
               >
-                Book
+                Environment
               </option>
               <option
-                value="Notes"
-                className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+                value="Gaming"
+                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
               >
-                Notes
+                Gaming
               </option>
               <option
-                value="Donation"
-                className="cursor-pointer outline-none text-xs font-semibold rounded-xl px-3 py-1"
+                value="Technology"
+                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
               >
-                Donation
+                Technology
+              </option>
+              <option
+                value="Programming"
+                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
+              >
+                Programming
+              </option>
+              <option
+                value="AI"
+                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
+              >
+                AI
+              </option>
+              <option
+                value="Politics"
+                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
+              >
+                Politics
+              </option>
+              <option
+                value="Sports"
+                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
+              >
+                Sports
               </option>
             </select>
+
             <label
               htmlFor="file-input"
               className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-2xl lg:text-3xl text-stone-500 p-2 cursor-pointer mb-5 lg:mb-10"

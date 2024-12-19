@@ -9,7 +9,7 @@ export default {
       fontFamily: {
         title: ["PT Serif", "sans-serif"],
         subtitle: ["Poppins", "sans-serif"],
-
+        stylish: ["Satisfy", "sans-serif"],
       },
     },
   },
