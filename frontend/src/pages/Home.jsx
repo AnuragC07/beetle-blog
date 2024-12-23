@@ -84,11 +84,11 @@ const Home = () => {
             className="flex justify-around flex-col p-2 pt-10 gap-14 bg-stone-900 ml-12"
           >
             <div className="flex flex-col justify-start items-start gap-10">
-              <div className="mt-14">
+              {/* <div className="mt-14">
                 <h1 className="text-4xl lg:text-3xl text-amber-50 font-title ml-4">
                   {greeting}, {username}.
                 </h1>
-              </div>
+              </div> */}
             </div>
             <div>
               <li className="flex gap-8 w-full borde text-amber-100 font-title justify-around items-center">

@@ -136,6 +136,9 @@ const User = () => {
             <p className="mt-28 mb-10 text-white font-title text-2xl">
               Profile Action Centre
             </p>
+            <p className="text-stone-600 cursor-pointer font-subtitle font-semibold">
+              Change Profile name
+            </p>
 
             {isLoggedIn ? (
               // If user is logged in, display "Logout" link

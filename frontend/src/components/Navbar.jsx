@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import MenuIcon from "@mui/icons-material/Menu";
+import { IoSearchOutline } from "react-icons/io5";
+import axios from "axios";
+import BlogCard from "./BlogCard";
+import SearchResultsModal from "./SearchResultsModal";
 
 const Navbar = () => {
   // Check if user is logged in
@@ -12,7 +16,9 @@ const Navbar = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // Function to handle logout
   const handleLogout = () => {
     // Remove the JWT token from localStorage
@@ -21,6 +27,23 @@ const Navbar = () => {
     setShowLogoutModal(false);
 
     navigate("/");
+  };
+
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/search?query=${query}`
+      );
+      setResults(response.data);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error("Error searching blogs", error);
+    }
+  };
+
+  const closeModal = () => {
+    console.log("Closing modal");
+    setIsModalOpen(false); // Close the modal
   };
 
   return (
@@ -34,6 +57,54 @@ const Navbar = () => {
           id="lists"
           className="flex lg:flex-row lg:justify-center lg:items-center gap-8 mr-10 p-4"
         >
+          <div className="bg-stone-900 border border-stone-700 shadow-md px-4 py-2 rounded-2xl flex gap-2 items-center">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search an article"
+              className="bg-stone-900 text-stone-200 outline-none w-56"
+            />
+            <button onClick={handleSearch}>
+              <IoSearchOutline
+                color="white"
+                size={20}
+                className="cursor-pointer"
+              />
+            </button>
+          </div>
+          {/* Render the modal when isModalOpen is true */}
+          {isModalOpen && (
+            <div
+              className="absolute top-14 w-auto bg-stone-900 border border-stone-700 rounded-xl p-2 min-w-[800px] mt-2 z-50" // Control opacity for smooth fade-in
+            >
+              <div className="flex justify-between items-center">
+                <h2 className="text-white text-lg ml-14 font-semibold">
+                  Search Results
+                </h2>
+                <button onClick={closeModal} className="text-white mr-2">
+                  X
+                </button>
+              </div>
+
+              <div className="mt-4 max-h-60 overflow-y-auto">
+                {results.length > 0 ? (
+                  results.map((blog) => (
+                    <BlogCard
+                      key={blog._id}
+                      title={blog.title}
+                      author={blog.author}
+                      image={`http://localhost:8000/images/${blog.image}`}
+                      blog={blog} // Pass the full blog object to BlogCard
+                    />
+                  ))
+                ) : (
+                  <p className="text-white">No results found</p>
+                )}
+              </div>
+            </div>
+          )}
+
           <Link
             to="/create"
             className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-28 border-2 border-stone-800 bg-stone-800"

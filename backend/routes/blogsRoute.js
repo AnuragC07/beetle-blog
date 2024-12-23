@@ -51,6 +51,33 @@ router.use(express.json())
 // }
 
 
+//search route
+router.get("/search", async (req, res) => {
+    const { query } = req.query;
+    if (!query) {
+        return res.status(400).json({ message: 'Query parameter is required' });
+    }
+    console.log("Search query:", query);
+    try {
+        const blogs = await Blog.find({
+            $or: [
+                { title: { $regex: query, $options: 'i' } },
+                { author: { $regex: query, $options: 'i' } },
+            ],
+        });
+        console.log("Search results:", blogs); // Log the results
+        res.json(blogs);
+    } catch (error) {
+        console.error("Database query failed:", error.message);
+        res.status(500).json({ message: "Database query error" });
+    }
+});
+
+
+
+
+
+
 
 //api to create a new Blog
 router.post('/', jwtAuthMiddleware, extractUsernameFromToken, upload.single('file'), async (req, res) => {
@@ -116,6 +143,17 @@ router.delete("/:id", jwtAuthMiddleware, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 // router.get('/user', extractUsernameFromToken, async (req, res) => {

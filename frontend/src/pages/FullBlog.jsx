@@ -122,19 +122,19 @@ const FullBlog = () => {
                 </button>
               </div>
 
-              <div class="bg-stone-800 p-4 rounded-lg mb-3 cursor-default">
+              <div class="bg-stone-900 p-4 rounded-lg mb-3 cursor-default">
                 <p class="mb-2 font-title text-lg">“It was a fantastic read”</p>
                 <div class="text-sm text-stone-400 flex gap-4">
-                  <p>Alex</p>
-                  <p>2 days ago</p>
+                  <p className="text-stone-500 font-subtitle">Alex</p>
+                  <p className="text-stone-500 font-subtitle">2 days ago</p>
                 </div>
               </div>
 
-              <div class="bg-stone-800 p-4 rounded-lg cursor-default">
+              <div class="bg-stone-900 p-4 rounded-lg cursor-default">
                 <p class="mb-2 font-title text-lg">“It was a fantastic read”</p>
                 <div class="text-sm text-stone-400 flex gap-4">
-                  <p>Alex</p>
-                  <p>2 days ago</p>
+                  <p className="text-stone-500 font-subtitle">Alex</p>
+                  <p className="text-stone-500 font-subtitle">2 days ago</p>
                 </div>
               </div>
             </div>
