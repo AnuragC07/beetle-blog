@@ -8,7 +8,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { IoSearchOutline } from "react-icons/io5";
 import axios from "axios";
 import BlogCard from "./BlogCard";
-import SearchResultsModal from "./SearchResultsModal";
 
 const Navbar = () => {
   // Check if user is logged in

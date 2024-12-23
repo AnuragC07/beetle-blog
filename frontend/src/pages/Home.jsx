@@ -17,6 +17,7 @@ const Home = () => {
   const [textblogs, setTextBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [greeting, setGreeting] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     // Function to get the username from JWT token stored in localStorage
@@ -68,6 +69,14 @@ const Home = () => {
       });
   }, []);
 
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category); // Update selected category
+  };
+
+  const filteredBlogs = selectedCategory
+    ? blogs.filter((blog) => blog.category === selectedCategory)
+    : blogs;
+
   const handleExploreButtonClick = () => {
     // Smooth scroll to the "Latest Articles" section
     const latestArticlesSection = document.getElementById("latest-articles");
@@ -92,28 +101,24 @@ const Home = () => {
             </div>
             <div>
               <li className="flex gap-8 w-full borde text-amber-100 font-title justify-around items-center">
-                <ul className="cursor-pointer border text-sm border-stone-800 flex items-center bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
-                  <p>Environment</p>
-                </ul>
-
-                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
-                  <p>Gaming</p>
-                </ul>
-                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
-                  <p>Technology</p>
-                </ul>
-                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
-                  <p>Programming</p>
-                </ul>
-                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
-                  <p>AI</p>
-                </ul>
-                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
-                  <p>Politics</p>
-                </ul>
-                <ul className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300">
-                  <p>Sports</p>
-                </ul>
+                {[
+                  "Environment",
+                  "Gaming",
+                  "Technology",
+                  "Programming",
+                  "Ai",
+                  "Movies",
+                  "Politics",
+                  "Sports",
+                ].map((category) => (
+                  <ul
+                    key={category}
+                    onClick={() => handleCategoryClick(category)}
+                    className="cursor-pointer flex items-center border text-sm border-stone-800 bg-stone-900 hover:bg-stone-950 px-4 h-10 rounded-2xl transition-colors duration-300"
+                  >
+                    <p>{category}</p>
+                  </ul>
+                ))}
               </li>
             </div>
             {/* <img src={heroimg} alt="" className="hidden lg:block lg:w-2/4" /> */}
@@ -121,9 +126,9 @@ const Home = () => {
           <div id="latest-articles" className="bg-stone-900 rounded-t-3xl p-2">
             <div className="mt-0">
               <h1 className="font-stylish text-[50px] ml-16 text-white">
-                #foryou
+                {selectedCategory ? `#${selectedCategory}` : "#foryou"}
               </h1>
-              {blogs
+              {filteredBlogs
                 .slice()
                 .reverse()
                 .map((blog, index) => (
@@ -133,7 +138,6 @@ const Home = () => {
                     author={blog.author}
                     image={`http://localhost:8000/images/${blog.image}`}
                     blog={blog}
-                    // content={blog.content}
                   />
                 ))}
             </div>

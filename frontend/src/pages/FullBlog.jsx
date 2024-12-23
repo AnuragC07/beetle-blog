@@ -62,7 +62,7 @@ const FullBlog = () => {
           <div className="m-1 mt-12 flex flex-col w-full lg:w-4/5 bg-stone-900">
             <div className="text-left items-start pl-2 border-b border-b-stone-700">
               <p className="font-title mb-2 text-amber-100 mt-4 lg:mt-20 border w-fit rounded-2xl px-4 py-1 border-stone-800">
-                Environment
+                {blog.category}
               </p>
               <h1 className="text-4xl lg:text-5xl font-bold font-title text-amber-50 w-full text-left items-left ">
                 {blog.title}

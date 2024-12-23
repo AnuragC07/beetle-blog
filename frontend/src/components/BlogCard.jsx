@@ -30,7 +30,7 @@ const BlogCard = ({ title, author, image, blog }) => {
 
         <div className="relative z-10 flex flex-col justify-between h-44 lg:h-56 w-full lg:w-full text-white p-5">
           <div>
-            <p className="font-title mb-2 text-amber-100">Environment</p>
+            <p className="font-title mb-2 text-amber-100">{blog.category}</p>
             <Link to={`/fullblog/${blog._id}`}>
               <h1 className="max-w-full lg:max-h-24 lg:text-xl text-xl font-subtitle font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
                 {title}
