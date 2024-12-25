@@ -62,7 +62,7 @@ const Navbar = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search an article"
-              className="bg-stone-900 text-stone-200 outline-none w-56"
+              className="bg-stone-900 text-stone-200 outline-none w-56 placeholder:text-stone-600 font-subtitle"
             />
             <button onClick={handleSearch}>
               <IoSearchOutline

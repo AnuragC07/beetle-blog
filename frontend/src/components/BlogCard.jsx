@@ -1,20 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 import { BsBookmark } from "react-icons/bs";
 import { GoCommentDiscussion } from "react-icons/go";
 import { AiOutlineLike } from "react-icons/ai";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const BlogCard = ({ title, author, image, blog }) => {
+  const [totalcomments, setTotalComments] = useState("");
+  const { id } = useParams();
   // Function to strip HTML tags from content
   // const stripHtmlTags = (htmlContent) => {
   //   return htmlContent.replace(/<[^>]*>?/gm, " ");
   // };
+
+  useEffect(() => {
+    fetchComments();
+  }, [id]);
+
   const formatCreatedAt = (createdAt) => {
     const date = new Date(createdAt);
     const options = { month: "long", day: "numeric" };
     return date.toLocaleDateString("en-US", options);
+  };
+
+  const fetchComments = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        `http://localhost:8000/comments/${blog._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // console.log("Fetched comments:", response.data);
+      setTotalComments(response.data.comments.length); // Add this for debugging
+    } catch (err) {
+      console.error("Error details:", err.response?.data || err.message);
+    }
   };
 
   return (
@@ -54,8 +82,8 @@ const BlogCard = ({ title, author, image, blog }) => {
 
           <div className="flex gap-4 items-center">
             <div className=" flex gap-2 items-center  text-stone-400 cursor-default">
-              <AiOutlineLike size={20} />
-              <p>20</p>
+              <GoCommentDiscussion size={20} />
+              <p>{totalcomments}</p>
             </div>
             <div className="bg-stone-800 rounded-full py-2 px-4 flex gap-2 items-center hover:bg-stone-700 transition-colors duration-300 text-stone-400 cursor-pointer">
               <BsBookmark />

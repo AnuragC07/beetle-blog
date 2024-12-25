@@ -10,6 +10,7 @@ export default {
         title: ["PT Serif", "sans-serif"],
         subtitle: ["Poppins", "sans-serif"],
         stylish: ["Satisfy", "sans-serif"],
+        hero: ["Open Sans", "sans-serif"],
       },
     },
   },

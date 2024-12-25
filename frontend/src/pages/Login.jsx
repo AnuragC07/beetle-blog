@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Logo from "../assets/beetle.svg";
+import Logo from "../assets/beetle2.svg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "./login.css";
+
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -64,29 +64,34 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <img src={Logo} alt="beetle logo" className="m-5" />
-      <div id="body" className="flex flex-col justify-center items-center">
-        <div className="flex flex-col gap-5 mt-10 justify-center items-center">
-          <h1 className="text-4xl lg:text-5xl font-medium  text-stone-700 font-title">
+    <div className="bg-stone-900">
+      <div className="flex justify-center items-center">
+        <img src={Logo} alt="beetle logo" className="p-5 bg-stone-900" />
+      </div>
+      <div
+        id="body"
+        className="flex flex-col justify-center items-center bg-stone-900"
+      >
+        <div className="flex flex-col gap-5 mt-10 justify-center items-center bg-stone-900">
+          <h1 className="text-4xl lg:text-5xl font-medium  text-stone-400 font-title">
             Welcome back!
           </h1>
-          <h3 className="text-xl font-subtitle text-stone-400 font-semibold">
+          <h3 className="text-xl font-subtitle text-stone-600 font-semibold">
             Let's get you logged in
           </h3>
         </div>
 
         <form
-          className="w-3/4 border border-zinc-100 bg-white rounded-xl shadow-lg lg:w-1/4 m-8 mt-10 flex flex-col gap-5 p-10 pl-11"
+          className="w-3/4 bg-stone-800 rounded-xl shadow-lg lg:w-1/4 m-8 mt-9 flex flex-col gap-5 p-10 pl-11"
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col ">
-            <label className="text-base text-slate-600 font-normal">
+            <label className="text-base text-stone-500 font-normal bg-stone-800">
               Email
             </label>
             <input
               type="email"
-              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
+              className="border border-stone-700 w-full bg-stone-800 rounded-md h-10 pl-3 font-normal mt-1 text-sm placeholder:text-stone-500 outline-none text-stone-300 font-subtitle"
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -94,12 +99,12 @@ const Login = () => {
             />
           </div>
           <div className="flex flex-col ">
-            <label className="text-base text-slate-600 font-normal">
+            <label className="text-base text-stone-500 font-normal bg-stone-800">
               Password
             </label>
             <input
               type="password"
-              className="border border-slate-200 w-full bg-white rounded-md h-10 pl-3 font-normal mt-1 text-sm"
+              className="border border-stone-700 w-full bg-stone-800 rounded-md h-10 pl-3 font-normal mt-1 text-sm placeholder:text-stone-500 outline-none text-stone-300"
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -107,18 +112,18 @@ const Login = () => {
             />
           </div>
           <div>
-            <button className=" mt-5 bg-stone-800 text-white h-10 text-sm p-1 w-full lg:mt-20 rounded-md font-subtitle font-medium">
+            <button className=" mt-5 bg-stone-900 text-white h-10 text-sm p-1 w-full lg:mt-20 rounded-md font-subtitle font-medium">
               Sign in
             </button>
           </div>
         </form>
 
-        <div>
+        <div className="h-14">
           <h1 className="text-lg text-stone-600 font-subtitle font-semibold">
             New here?{" "}
             <Link
               to="/signup"
-              className="text-lg text-stone-800 font-subtitle font-semibold"
+              className="text-lg text-stone-400 font-subtitle font-semibold ml-2"
             >
               Sign up
             </Link>

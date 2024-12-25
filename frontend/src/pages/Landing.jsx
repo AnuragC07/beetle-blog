@@ -1,37 +1,49 @@
 import React from "react";
-import Logo from "../assets/beetle.svg";
+import Logo from "../assets/beetle2.svg";
 import illustration from "../assets/Designer__7_-removebg.png";
 import { Link } from "react-router-dom";
+import grid from "./../assets/Vectorgf.png";
+import hero from "./../assets/Redefine perspectives real.svg";
+import buttonimg from "./../assets/black btn.svg";
+import categories from "./../assets/Group 17.png";
+import hero2 from "./../assets/Redefine perspectives.svg";
 
 const Landing = () => {
   return (
-    <div>
-      <div className="flex flex-col lg:flex-row mx-15 justify-around">
-        <div className="flex flex-col">
-          <div className="flex justify-start items-center m-5">
-            <img src={Logo} alt="" />
+    <div className="bg-stone-900">
+      <nav className="flex justify-center items-center py-14">
+        <img src={Logo} alt="" />
+      </nav>
+      <section className="relative">
+        <div className="flex justify-center items-center">
+          <div className="absolute top-14">
+            <div className="flex flex-col items-center">
+              <img src={hero} alt="" />
+              <p className="text-amber-100 text-lg font-title mt-10 w-96 text-center">
+                Discover stories from all around the world or let your own ideas
+                take flight
+              </p>
+            </div>
+            <Link to="/signin">
+              <div className="flex items-center justify-center">
+                <img src={buttonimg} alt="" className="h-12 w-32 mt-16" />
+              </div>
+            </Link>
           </div>
-          <img
-            src={illustration}
-            alt=""
-            className="hidden  w-full lg:flex justify-center items-center ml-15 h-screen p-10 mr-16"
-          />
         </div>
-        <div className="w-full h-screen flex flex-col justify-between  pl-5 lg:pl-10  lg:w-2/4 p-10 lg:p-16 bg-stone-100 shadow-xl ">
-          <div>
-            <h1 className="text-6xl font-title w-3/4">Empowering Minds.</h1>
-            <h2 className="text-3xl lg:text-4xl font-subtitle w-3/4 text-blue-500 font-semibold mt-10">
-              Discover stories from all around the world
-              <br /> or let your own ideas take flight!
-            </h2>
-          </div>
-          <Link to="/signin">
-            <button className="mt-10 bg-stone-900 text-white px-5 py-2 w-32 rounded-md mb-5">
-              Get started
-            </button>
-          </Link>
-        </div>
-      </div>
+        <img src={grid} alt="" className="w-full" />
+      </section>
+      <section className="flex flex-col justify-center items-center">
+        <img src={hero2} alt="" />
+        <img src={categories} alt="" className="mt-10" />
+        <p className="text-white text-lg font-title mt-10 w-96 text-center">
+          We provide you with minimalistic and clutter free experience so you
+          can express yourself your way
+        </p>
+      </section>
+      <footer className="flex justify-center items-center">
+        <img src={Logo} alt="" className="py-20 mt-20" />
+      </footer>
     </div>
   );
 };

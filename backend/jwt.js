@@ -25,10 +25,17 @@ const jwtAuthMiddleware = (req, res, next) => {
 }
 
 //function for creating JWT token
-const generateToken = (userData) => {
-    return jwt.sign(userData, process.env.JWT_SECRET_KEY, { expiresIn: 86400 });
-}
-
+// const generateToken = (userData) => {
+//     return jwt.sign(userData, process.env.JWT_SECRET_KEY, { expiresIn: 86400 });
+// }
+const generateToken = (user) => {
+    return jwt.sign({
+        id: user.id,
+        username: user.username
+    }, process.env.JWT_SECRET_KEY, {
+        expiresIn: 86400
+    });
+};
 //extract username from current logged in user's jwt token
 const extractUsernameFromToken = (req, res, next) => {
     const authorizationHeader = req.headers.authorization;

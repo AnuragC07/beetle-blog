@@ -105,13 +105,13 @@ const Create = () => {
   }
 
   return (
-    <div>
+    <div className="bg-stone-900">
       <Navbar />
-      <div className="flex flex-col justify-center items-center pt-12 bg-stone-900">
+      <div className="flex flex-col justify-center items-center py-12 bg-stone-900">
         {/* <h1 className="text-4xl font-subtitle font-light text-stone-400 ">
           Write your story
         </h1> */}
-        <div className="lg:mt-20 flex h-screen flex-col w-full justify-start lg:justify-center items-center mt-4">
+        <div className="lg:mt-20 flex h-fit flex-col w-full justify-start lg:justify-center items-center mt-4">
           <div className="w-11/12 lg:w-4/5 flex flex-col">
             {/* <label className="text-lg text-slate-400 font-normal">
               Article Title
@@ -216,7 +216,7 @@ const Create = () => {
                 <img
                   src={imagePreview}
                   alt="Preview"
-                  className="lg:w-1/3 w-3/5  rounded-lg"
+                  className="lg:w-1/4 w-3/5  rounded-lg"
                 />
               </div>
             )}
@@ -250,16 +250,16 @@ const Create = () => {
                   ["clean"],
                 ],
               }}
-              className="h-52 mt-5 lg:h-60"
+              className="h-52 mt-5 lg:h-60 text-white"
             />
 
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center pb-14">
               <button
-                className="bg-zinc-800 text-white h-10 text-sm p-1 font-subtitle font-medium w-4/5 
+                className="bg-stone-600 text-white h-10 text-sm p-1 font-subtitle font-medium w-4/5 
                 mt-28 lg:mt-16 rounded-md mb-8"
                 onClick={handleSaveBlog}
               >
-                Publish
+                Publish article
               </button>
             </div>
           </div>

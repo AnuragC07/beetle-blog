@@ -1,0 +1,13 @@
+/* myCustomTheme.css */
+.ql-container {
+  border-radius: 0.75rem;
+  background-color: #2d2d2d;
+  color: #f5f5f5;
+  padding: 0.5rem;
+}
+
+.ql-toolbar {
+  border-radius: 0.75rem;
+  background-color: #b32020;
+  border: none;
+}
