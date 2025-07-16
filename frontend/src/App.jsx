@@ -15,10 +15,10 @@ const App = () => {
     <div>
       <Toaster position="top-center" reverseOrder={false} />
       <Routes>
-        <Route path="/" element={<Landing />} />
+        {/* <Route path="/" element={<Landing />} /> */}
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Register />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/fullblog/:id" element={<FullBlog />} />
         <Route path="/user" element={<User />} />
         <Route path="/create" element={<Create />} />

@@ -47,12 +47,12 @@ const BlogCard = ({ title, author, image, blog }) => {
 
   return (
     <div className="flex m-auto justify-center">
-      <div className="relative border border-stone-600 rounded-2xl shadow-lg w-full lg:w-full h-52 lg:h-fit flex flex-row gap-5 lg:gap-2 m-0 lg:m-5 lg:ml-14 mt-5 bg-stone-900 overflow-hidden hover:shadow-xl">
+      <div className="relative  rounded-2xl shadow-lg w-full lg:w-full h-52 lg:h-fit flex flex-row gap-5 lg:gap-2 m-0 lg:m-5 lg:ml-14 mt-5  overflow-hidden hover:shadow-xl">
         <Link to={`/fullblog/${blog._id}`}>
           <img
             src={image}
             alt="Article cover"
-            className="w-72 h-56 object-cover"
+            className="w-96 h-56 object-cover"
           />
         </Link>
 
@@ -72,21 +72,18 @@ const BlogCard = ({ title, author, image, blog }) => {
                 {formatCreatedAt(blog.createdAt)}
               </p>
             </div>
-            <div className="mt-2">
-              <p className="text-stone-400 text-lg font-light">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Voluptates, dolorem.
-              </p>
-            </div>
+            {/* <div className="mt-2">
+              <p
+                className="text-stone-400 text-lg font-light"
+                dangerouslySetInnerHTML={{ __html: blog.content }}
+              ></p>
+            </div> */}
           </div>
 
           <div className="flex gap-4 items-center">
             <div className=" flex gap-2 items-center  text-stone-400 cursor-default">
               <GoCommentDiscussion size={20} />
               <p>{totalcomments}</p>
-            </div>
-            <div className="bg-stone-800 rounded-full py-2 px-4 flex gap-2 items-center hover:bg-stone-700 transition-colors duration-300 text-stone-400 cursor-pointer">
-              <BsBookmark />
             </div>
           </div>
         </div>

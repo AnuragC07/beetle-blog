@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
 
-const BlogTextCard = ({ title, author, image, textblog }) => {
+const BlogTextCard = ({ title, author, image, category, textblog }) => {
   // Function to strip HTML tags from content
   // const stripHtmlTags = (htmlContent) => {
   //   return htmlContent.replace(/<[^>]*>?/gm, " ");
@@ -27,7 +27,7 @@ const BlogTextCard = ({ title, author, image, textblog }) => {
           <div className="relative z-10 flex flex-col justify-between h-44 lg:h-fit w-full text-white p-5">
             <div>
               <p className="font-title text-base mb-2 text-amber-100">
-                Environment
+                {category}
               </p>
               <h1 className=" max-w-full lg:max-h-24 lg:text-lg text-xl font-subtitle font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
                 {title}

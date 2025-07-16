@@ -5,6 +5,8 @@ import axios from "axios";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { HiOutlineBookmarkSlash } from "react-icons/hi2";
+
 const decodeToken = (token) => {
   const payload = token.split(".")[1];
   return JSON.parse(atob(payload));
@@ -18,6 +20,8 @@ const User = () => {
   const [loading, setLoading] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
+  const [bookmarkedBlogs, setBookmarkedBlogs] = useState([]);
+  const [results, setResults] = useState([]);
 
   const handleLogout = () => {
     // Remove the JWT token from localStorage
@@ -86,7 +90,45 @@ const User = () => {
     setSelectedBlog(null);
     setShowDeleteModal(false);
   };
+  useEffect(() => {
+    const loadBookmarks = async () => {
+      const blogs = await fetchBookmarkedBlogs();
+      setBookmarkedBlogs(blogs);
+    };
 
+    loadBookmarks();
+  }, []);
+
+  const fetchBookmarkedBlogs = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken"); // Retrieve JWT from localStorage
+      const response = await axios.get("http://localhost:8000/api/bookmarks", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setResults(response.data.bookmarkedBlogs);
+    } catch (error) {
+      console.error("Full error:", error);
+      console.error("Response data:", error.response?.data);
+      return [];
+    }
+  };
+  const removeBookmark = async (blogId) => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      await axios.delete(`http://localhost:8000/bookmark/${blogId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setBookmarkedBlogs((prev) => prev.filter((blog) => blog._id !== blogId));
+    } catch (error) {
+      console.error("Full error object:", error);
+      console.error("Response status:", error.response?.status);
+      console.error("Response data:", error.response?.data);
+    }
+  };
   return (
     <div>
       <Navbar />
@@ -131,6 +173,46 @@ const User = () => {
                 ))}
               </ul>
             )}
+            {/* <div>
+              
+              {bookmarkedBlogs.length > 0 ? (
+                bookmarkedBlogs.map((blog) => (
+                  <div key={blog._id}>
+                    <h2>{blog.title}</h2>
+                    <p>{blog.content}</p>
+                  </div>
+                ))
+              ) : (
+                <p>You have no bookmarked blogs.</p>
+              )}
+            </div> */}
+            <h1 className="text-2xl font-bold mb-3 mt-10 font-subtitle text-stone-400 ">
+              Your Bookmarked Blogs
+            </h1>
+
+            <div>
+              {results.length > 0 ? (
+                results.map((blog) => (
+                  <li>
+                    <button
+                      onClick={() => removeBookmark(blog._id)}
+                      className="text-white mt-8 shadow-xl border-2 border-stone-600 w-10 h-10 bg-stone-800 rounded-full absolute right-5 lg:right-8 z-40 cursor-pointer"
+                    >
+                      <HiOutlineBookmarkSlash />
+                    </button>
+                    <BlogCard
+                      key={blog._id}
+                      title={blog.title}
+                      author={blog.author}
+                      image={`http://localhost:8000/images/${blog.image}`}
+                      blog={blog} // Pass the full blog object to BlogCard
+                    />
+                  </li>
+                ))
+              ) : (
+                <p className="text-white">No results found</p>
+              )}
+            </div>
           </div>
           <div className="w-[400px] border border-stone-600 p-4">
             <p className="mt-28 mb-10 text-white font-title text-2xl">

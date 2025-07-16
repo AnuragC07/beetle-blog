@@ -24,7 +24,7 @@ const Register = () => {
         formData
       );
       // console.log(response.data);
-      navigate("/signin");
+      navigate("/");
     } catch (error) {
       console.error("Signup Error:", error);
     }

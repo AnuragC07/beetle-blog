@@ -15,6 +15,12 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        bookmarkedBlogs: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Blog', // This assumes you have a Blog model
+            },
+        ],
     },
     {
         timestamps: true,

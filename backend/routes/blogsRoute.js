@@ -92,7 +92,7 @@ router.post('/', jwtAuthMiddleware, extractUsernameFromToken, upload.single('fil
             author: req.username,
             authorId: req.user.id,
             category: req.body.category,
-            image: req.file.filename,
+            image: req.file ? req.file.filename : "",
             content: req.body.content
         };
         const blog = await Blog.create(newBlog);
@@ -105,7 +105,7 @@ router.post('/', jwtAuthMiddleware, extractUsernameFromToken, upload.single('fil
 });
 
 //api to show all blogs
-router.get('/', jwtAuthMiddleware, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const blogs = await Blog.find({});
         res.status(200).json({

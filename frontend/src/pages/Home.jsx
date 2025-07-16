@@ -7,6 +7,7 @@ import BlogCard from "../components/BlogCard";
 import BlogTextCard from "../components/BlogTextCard";
 import Footer from "../components/Footer";
 import heroimg from "../assets/bwink_med_12_single_01 1.png";
+import FeaturedBlog from "../components/FeaturedBlog";
 const decodeToken = (token) => {
   const payload = token.split(".")[1];
   return JSON.parse(atob(payload));
@@ -58,7 +59,7 @@ const Home = () => {
 
     // Send the GET request with the token included in the headers
     axios
-      .get("http://localhost:8000/", config)
+      .get("http://localhost:8000/")
       .then((response) => {
         setBlogs(response.data.data);
         setTextBlogs(response.data.data);
@@ -83,6 +84,85 @@ const Home = () => {
     latestArticlesSection.scrollIntoView({ behavior: "smooth" });
   };
 
+  const categories = [
+    "Environment",
+    "Gaming",
+    "Technology",
+    "Programming",
+    "AI",
+    "Movies",
+    "Politics",
+    "Sports",
+  ];
+
+  // Group blogs by category
+  const blogsByCategory = categories.reduce((acc, category) => {
+    acc[category] = blogs.filter((blog) => blog.category === category);
+    return acc;
+  }, {});
+
+  // Helper to render category section
+  const renderCategorySection = (category) => {
+    const catBlogs = blogsByCategory[category] || [];
+    if (catBlogs.length === 0) return null;
+    // Find first blog with image for featured, rest as normal
+    const featured = catBlogs.find((b) => b.image);
+    const rest = catBlogs.filter((b) => b !== featured && b.image);
+    const textBlogs = catBlogs.filter((b) => !b.image);
+    return (
+      <div key={category} className="mb-16">
+        <h1 className="font-stylish text-[40px] ml-16 text-white mt-10 mb-4">
+          #{category}
+        </h1>
+        {featured && (
+          <FeaturedBlog
+            key={featured._id || featured.title}
+            title={featured.title}
+            author={featured.author}
+            image={`http://localhost:8000/images/${featured.image}`}
+            category={featured.category}
+            blog={featured}
+          />
+        )}
+        {rest.map((blog, idx) => (
+          <BlogCard
+            key={blog._id || blog.title || idx}
+            title={blog.title}
+            author={blog.author}
+            image={`http://localhost:8000/images/${blog.image}`}
+            blog={blog}
+          />
+        ))}
+        {textBlogs.map((blog, idx) => (
+          <BlogTextCard
+            key={blog._id || blog.title || idx}
+            title={blog.title}
+            author={blog.author}
+            category={blog.category}
+            image={
+              blog.image
+                ? `http://localhost:8000/images/${blog.image}`
+                : undefined
+            }
+            textblog={blog}
+          />
+        ))}
+      </div>
+    );
+  };
+
+  // For #foryou: pick 4 random blogs, one as featured (with image if possible)
+  let forYouBlogs = [];
+  let forYouFeatured = null;
+  if (blogs.length >= 4) {
+    const shuffled = blogs.slice().sort(() => 0.5 - Math.random());
+    forYouBlogs = shuffled.slice(0, 4);
+    forYouFeatured = forYouBlogs.find((b) => b.image) || forYouBlogs[0];
+  } else if (blogs.length > 0) {
+    forYouBlogs = blogs.slice();
+    forYouFeatured = forYouBlogs.find((b) => b.image) || forYouBlogs[0];
+  }
+
   return (
     <div className="bg-stone-900">
       <Navbar />
@@ -101,16 +181,7 @@ const Home = () => {
             </div>
             <div>
               <li className="flex gap-8 w-full borde text-amber-100 font-title justify-around items-center">
-                {[
-                  "Environment",
-                  "Gaming",
-                  "Technology",
-                  "Programming",
-                  "Ai",
-                  "Movies",
-                  "Politics",
-                  "Sports",
-                ].map((category) => (
+                {categories.map((category) => (
                   <ul
                     key={category}
                     onClick={() => handleCategoryClick(category)}
@@ -125,21 +196,58 @@ const Home = () => {
           </div>
           <div id="latest-articles" className="bg-stone-900 rounded-t-3xl p-2">
             <div className="mt-0">
-              <h1 className="font-stylish text-[50px] ml-16 text-white">
-                {selectedCategory ? `#${selectedCategory}` : "#foryou"}
-              </h1>
-              {filteredBlogs
-                .slice()
-                .reverse()
-                .map((blog, index) => (
-                  <BlogCard
-                    key={index}
-                    title={blog.title}
-                    author={blog.author}
-                    image={`http://localhost:8000/images/${blog.image}`}
-                    blog={blog}
-                  />
-                ))}
+              {/* Render #foryou or selected category */}
+              {!selectedCategory ? (
+                <>
+                  <h1 className="font-stylish text-[50px] ml-16 text-white mb-4">
+                    #foryou
+                  </h1>
+                  {forYouFeatured && forYouFeatured.image ? (
+                    <FeaturedBlog
+                      key={forYouFeatured._id || forYouFeatured.title}
+                      title={forYouFeatured.title}
+                      author={forYouFeatured.author}
+                      image={`http://localhost:8000/images/${forYouFeatured.image}`}
+                      category={forYouFeatured.category}
+                      blog={forYouFeatured}
+                    />
+                  ) : null}
+                  {forYouBlogs
+                    .filter((blog) => blog !== forYouFeatured && blog.image)
+                    .map((blog, idx) => (
+                      <BlogCard
+                        key={blog._id || blog.title || idx}
+                        title={blog.title}
+                        author={blog.author}
+                        image={`http://localhost:8000/images/${blog.image}`}
+                        blog={blog}
+                      />
+                    ))}
+                  {forYouBlogs
+                    .filter((blog) => !blog.image)
+                    .map((blog, idx) => (
+                      <BlogTextCard
+                        key={blog._id || blog.title || idx}
+                        title={blog.title}
+                        author={blog.author}
+                        category={blog.category}
+                        image={
+                          blog.image
+                            ? `http://localhost:8000/images/${blog.image}`
+                            : undefined
+                        }
+                        textblog={blog}
+                      />
+                    ))}
+                  {/* Render all categories after #foryou */}
+                  {categories.map((category) =>
+                    renderCategorySection(category)
+                  )}
+                </>
+              ) : (
+                // If a category is selected, show only that category
+                renderCategorySection(selectedCategory)
+              )}
             </div>
           </div>
         </div>
@@ -158,6 +266,7 @@ const Home = () => {
                   key={index}
                   title={textblogs.title}
                   author={textblogs.author}
+                  category={textblogs.category}
                   image={`http://localhost:8000/images/${textblogs.image}`}
                   textblog={textblogs}
                   // content={blog.content}

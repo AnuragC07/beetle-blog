@@ -70,7 +70,7 @@ const Create = () => {
       .then(() => {
         toast.success("Blog Published!");
         // console.log(res);
-        navigate("/home");
+        navigate("/");
       })
       .catch(() => {
         toast.error("Error occurred! Please fill out all fields");
@@ -145,6 +145,9 @@ const Create = () => {
               value={category}
               onChange={handleCategory}
             >
+              <option value="" disabled selected hidden>
+                Select a category
+              </option>
               <option
                 value="Environment"
                 className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"

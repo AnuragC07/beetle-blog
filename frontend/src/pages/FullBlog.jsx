@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import BlogTextCard from "../components/BlogTextCard";
 import { GoCommentDiscussion } from "react-icons/go";
 import { AiOutlineLike } from "react-icons/ai";
-
+import { BsBookmark } from "react-icons/bs";
 // const decodeToken = (token) => {
 //   const payload = token.split(".")[1];
 //   return JSON.parse(atob(payload));
@@ -119,6 +119,28 @@ const FullBlog = () => {
     }
   };
 
+  const bookmarkBlog = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken"); // Retrieve JWT from localStorage
+      const response = await axios.post(
+        "http://localhost:8000/bookmark",
+        { id: blog._id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Send JWT in the Authorization header
+          },
+        }
+      );
+
+      console.log("Bookmark added:", response.data.message);
+    } catch (error) {
+      console.error(
+        "Error bookmarking blog:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
   const formatCreatedAt = (createdAt) => {
     const date = new Date(createdAt);
     return `${date.toLocaleDateString()} `;
@@ -153,14 +175,22 @@ const FullBlog = () => {
                     <GoCommentDiscussion size={20} />
                     <p>{totalcomments}</p>
                   </div>
+                  <div className="bg-stone-800 rounded-full py-2 px-4 flex gap-2 items-center hover:bg-stone-700 transition-colors duration-300 text-stone-400 cursor-pointer">
+                    <button onClick={() => bookmarkBlog()}>
+                      <BsBookmark />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            <img
-              src={`http://localhost:8000/images/${blog.image}`}
-              alt=""
-              className="h-1/2 w-full rounded-md mt-10"
-            />
+            {/* Only show image if blog.image exists and is not empty */}
+            {blog.image && (
+              <img
+                src={`http://localhost:8000/images/${blog.image}`}
+                alt=""
+                className="h-1/2 w-full rounded-md mt-10"
+              />
+            )}
             <div
               className="font-title text-stone-200 font-medium text-xl mt-10 leading-9 ql-editor"
               dangerouslySetInnerHTML={{ __html: blog.content }}

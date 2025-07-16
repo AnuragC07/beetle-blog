@@ -47,7 +47,7 @@ const Navbar = () => {
 
   return (
     <div className="flex flex-row justify-between p-4 fixed top-0 w-full bg-stone-900 backdrop-blur-xl h-16 z-50 border-b border-b-stone-700">
-      <Link to="/home">
+      <Link to="/">
         <img src={Logo} alt="" />
       </Link>
 
@@ -111,19 +111,19 @@ const Navbar = () => {
             <CreateRoundedIcon className=" text-white  rounded-full " />
             <p className="text-white cursor-pointer font-subtitle">Write</p>
           </Link>
-
-          <Link to="/user">
-            <p className="text-stone-400 cursor-pointer font-subtitle font-semibold">
-              You
-            </p>
-          </Link>
           <hr className="border-r border-stone-400 h-7" />
           <p className="text-stone-400 cursor-pointer font-subtitle font-semibold">
             About
           </p>
+
           {isLoggedIn ? (
             // If user is logged in, display "Logout" link
             <>
+              <Link to="/user">
+                <p className="text-stone-400 cursor-pointer font-subtitle font-semibold">
+                  You
+                </p>
+              </Link>
               <p
                 className="text-stone-900 hidden font-subtitle font-semibold"
                 onClick={() => setShowLogoutModal(true)}

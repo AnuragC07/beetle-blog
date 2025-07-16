@@ -51,7 +51,7 @@ const Login = () => {
         localStorage.setItem("jwtToken", response.data.token);
         // Redirect to home page upon successful login
         toast.success("Login Successfull!");
-        navigate("/home");
+        navigate("/");
       } else {
         toast.error(response.data.error); // Display error message if login fails
       }
