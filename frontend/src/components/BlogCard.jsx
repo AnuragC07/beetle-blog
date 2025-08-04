@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import TrendingFlatRoundedIcon from "@mui/icons-material/TrendingFlatRounded";
-import { BsBookmark } from "react-icons/bs";
 import { GoCommentDiscussion } from "react-icons/go";
-import { AiOutlineLike } from "react-icons/ai";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 const BlogCard = ({ title, author, image, blog }) => {
-  const [totalcomments, setTotalComments] = useState("");
-  const { id } = useParams();
-  // Function to strip HTML tags from content
-  // const stripHtmlTags = (htmlContent) => {
-  //   return htmlContent.replace(/<[^>]*>?/gm, " ");
-  // };
+  const [totalComments, setTotalComments] = useState(0);
 
   useEffect(() => {
-    fetchComments();
-  }, [id]);
+    if (blog._id) {
+      fetchComments();
+    }
+  }, [blog._id]);
 
   const formatCreatedAt = (createdAt) => {
     const date = new Date(createdAt);
@@ -38,58 +31,44 @@ const BlogCard = ({ title, author, image, blog }) => {
           },
         }
       );
-      // console.log("Fetched comments:", response.data);
-      setTotalComments(response.data.comments.length); // Add this for debugging
+      setTotalComments(response.data.comments.length);
     } catch (err) {
-      console.error("Error details:", err.response?.data || err.message);
+      console.error("Error fetching comments:", err);
     }
   };
 
   return (
-    <div className="flex m-1 md:m-2 justify-center w-full max-w-full">
-      <div className="relative rounded-2xl shadow-lg w-full max-w-full h-fit flex flex-col sm:flex-row gap-2 md:gap-5 lg:gap-2 m-0 md:ml-6 lg:ml-14 mt-2 md:mt-5 bg-black overflow-hidden hover:shadow-xl">
-        <Link to={`/fullblog/${blog._id}`}>
+    <Link to={`/fullblog/${blog._id}`}>
+      <div className="bg-black rounded-2xl shadow-lg mb-4 overflow-hidden hover:shadow-xl transition-shadow">
+        <div className="flex flex-col md:flex-row">
           <img
             src={image}
-            alt="Article cover"
-            className="w-full max-w-full h-auto object-cover m-2 rounded-lg sm:max-w-xs sm:w-64 sm:h-44"
+            alt={title}
+            className="w-full md:w-1/3 h-40 md:h-48 object-cover"
           />
-        </Link>
-
-        <div className="relative z-10 flex flex-col justify-between h-36 lg:h-fit w-full lg:w-full text-white p-3">
-          <div className="ml-2 md:ml-5">
-            <p className="font-bit mb-1 md:mb-2 text-amber-100 text-xs md:text-base">
-              {blog.category}
-            </p>
-            <Link to={`/fullblog/${blog._id}`}>
-              <h1 className="max-w-full lg:max-h-24 text-base md:text-xl font-subtitle font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
+          <div className="flex flex-col justify-between p-3 md:p-4 text-white">
+            <div>
+              <p className="text-amber-100 font-bit text-xs md:text-sm mb-2">
+                {blog.category}
+              </p>
+              <h2 className="text-base md:text-lg lg:text-xl font-bold mb-3 font-subtitle">
                 {title}
-              </h1>
-            </Link>
-            <div className="flex gap-1 md:gap-2">
-              <p className="text-xs md:text-base text-stone-500 font-subtitle border-l-4 border-stone-500 pl-1 md:pl-2 mt-1 md:mt-2 font-bold">
-                by {author}
-              </p>
-              <p className="text-xs md:text-base text-stone-500 font-subtitle pl-1 md:pl-2 mt-1 md:mt-2 font-bold">
-                {formatCreatedAt(blog.createdAt)}
-              </p>
-              <div className="flex gap-1 md:gap-2 items-center mt-1 md:mt-2 ml-2 md:ml-4 text-stone-500 cursor-default">
-                <GoCommentDiscussion size={18} />
-                <p>{totalcomments}</p>
+              </h2>
+              <div className="flex items-center gap-2 md:gap-4 text-stone-500 text-xs md:text-sm">
+                <p className="font-subtitle">by {author}</p>
+                <p className="font-subtitle">
+                  {formatCreatedAt(blog.createdAt)}
+                </p>
+                <div className="flex items-center gap-1">
+                  <GoCommentDiscussion size={14} className="md:w-4 md:h-4" />
+                  <span>{totalComments}</span>
+                </div>
               </div>
             </div>
-            {/* <div className="mt-2">
-              <p
-                className="text-stone-400 text-lg font-light"
-                dangerouslySetInnerHTML={{ __html: blog.content }}
-              ></p>
-            </div> */}
           </div>
-
-          <div className="flex gap-4 items-center"></div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -97,8 +76,7 @@ BlogCard.propTypes = {
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  blog: PropTypes.number.isRequired,
-  content: PropTypes.string,
+  blog: PropTypes.object.isRequired,
 };
 
 export default BlogCard;

@@ -106,15 +106,6 @@ const Navbar = () => {
           )}
 
           <Link
-            to="/createcolumn"
-            className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-fit border-2 border-stone-800 bg-black"
-          >
-            <AddCircleOutlineOutlinedIcon className=" text-stone-300  rounded-full " />
-            <p className="text-stone-300 cursor-pointer font-subtitle">
-              Create a Column
-            </p>
-          </Link>
-          <Link
             to="/create"
             className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-28 border-2 border-stone-800 bg-black"
           >

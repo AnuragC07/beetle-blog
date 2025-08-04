@@ -1,46 +1,76 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import axios from "axios";
+import { GoCommentDiscussion } from "react-icons/go";
 
 const DisplayCard = ({ title, author, category, textblog, image }) => {
+  const [totalComments, setTotalComments] = useState(0);
+
+  useEffect(() => {
+    if (textblog._id) {
+      fetchComments();
+    }
+  }, [textblog._id]);
+
   const formatCreatedAt = (createdAt) => {
     const date = new Date(createdAt);
     const options = { month: "long", day: "numeric" };
     return date.toLocaleDateString("en-US", options);
   };
 
+  const fetchComments = async () => {
+    try {
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.get(
+        `http://localhost:8000/comments/${textblog._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setTotalComments(response.data.comments.length);
+    } catch (err) {
+      console.error("Error fetching comments:", err);
+    }
+  };
+
   return (
-    <div className="w-full max-w-full mx-1 md:mx-2 rounded-lg p-1 md:p-2 mb-1 md:mb-2 shadow hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
-      {image && (
-        <img
-          src={image}
-          alt={title}
-          className="w-full max-w-full h-auto object-cover rounded-md mb-2 mr-4 sm:max-w-xs sm:w-32 sm:h-32"
-        />
-      )}
-      <div className="flex flex-col gap-1">
-        <Link to={`/fullblog/${textblog._id}`}>
-          {category && (
-            <span className="text-amber-100 font-bit text-xs md:text-base mb-1 md:mb-2">
-              #{category}
-            </span>
+    <Link to={`/fullblog/${textblog._id}`}>
+      <div className="bg-black rounded-2xl shadow-lg mb-4 overflow-hidden hover:shadow-xl transition-shadow">
+        <div className="flex flex-col md:flex-row">
+          {image && (
+            <img
+              src={image}
+              alt={title}
+              className="w-full md:w-1/3 h-40 md:h-48 object-cover"
+            />
           )}
-          <h2 className="text-base md:text-lg font-bold text-white mb-1 truncate whitespace-normal overflow-visible cursor-pointer max-h-15 font-subtitle">
-            {title}
-          </h2>
-        </Link>
-        <div className="flex flex-col items-left text-white text-sm md:text-lg mb-1 md:mb-2">
-          <div className="flex flex-row items-start justify-start gap-1 md:gap-2">
-            <p className="text-xs md:text-base text-stone-500 font-subtitle border-l-4 border-stone-500 pl-1 md:pl-2 mt-1 md:mt-2 font-bold">
-              by {author}
-            </p>
-            <p className="text-xs md:text-base text-stone-500 font-subtitle pl-1 md:pl-2 mt-1 md:mt-2 font-bold">
-              {formatCreatedAt(textblog.createdAt)}
-            </p>
+          <div className="flex flex-col justify-between p-3 md:p-4 text-white">
+            <div>
+              <p className="text-amber-100 font-bit text-xs md:text-sm mb-2">
+                {category}
+              </p>
+              <h2 className="text-base md:text-lg lg:text-xl font-bold mb-3 font-subtitle">
+                {title}
+              </h2>
+              <div className="flex items-center gap-2 md:gap-4 text-stone-500 text-xs md:text-sm">
+                <p className="font-subtitle">by {author}</p>
+                <p className="font-subtitle">
+                  {formatCreatedAt(textblog.createdAt)}
+                </p>
+                <div className="flex items-center gap-1">
+                  <GoCommentDiscussion size={14} className="md:w-4 md:h-4" />
+                  <span>{totalComments}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
