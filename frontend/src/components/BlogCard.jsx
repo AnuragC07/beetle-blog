@@ -46,31 +46,37 @@ const BlogCard = ({ title, author, image, blog }) => {
   };
 
   return (
-    <div className="flex m-auto justify-center">
-      <div className="relative  rounded-2xl shadow-lg w-full lg:w-full h-52 lg:h-fit flex flex-row gap-5 lg:gap-2 m-0 lg:m-5 lg:ml-14 mt-5  overflow-hidden hover:shadow-xl">
+    <div className="flex m-1 md:m-2 justify-center w-full max-w-full">
+      <div className="relative rounded-2xl shadow-lg w-full max-w-full h-fit flex flex-col sm:flex-row gap-2 md:gap-5 lg:gap-2 m-0 md:ml-6 lg:ml-14 mt-2 md:mt-5 bg-black overflow-hidden hover:shadow-xl">
         <Link to={`/fullblog/${blog._id}`}>
           <img
             src={image}
             alt="Article cover"
-            className="w-96 h-56 object-cover"
+            className="w-full max-w-full h-auto object-cover m-2 rounded-lg sm:max-w-xs sm:w-64 sm:h-44"
           />
         </Link>
 
-        <div className="relative z-10 flex flex-col justify-between h-44 lg:h-56 w-full lg:w-full text-white p-5">
-          <div>
-            <p className="font-title mb-2 text-amber-100">{blog.category}</p>
+        <div className="relative z-10 flex flex-col justify-between h-36 lg:h-fit w-full lg:w-full text-white p-3">
+          <div className="ml-2 md:ml-5">
+            <p className="font-bit mb-1 md:mb-2 text-amber-100 text-xs md:text-base">
+              {blog.category}
+            </p>
             <Link to={`/fullblog/${blog._id}`}>
-              <h1 className="max-w-full lg:max-h-24 lg:text-xl text-xl font-subtitle font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
+              <h1 className="max-w-full lg:max-h-24 text-base md:text-xl font-subtitle font-semibold lg:font-semimedium overflow-hidden hover:cursor-pointer">
                 {title}
               </h1>
             </Link>
-            <div className="flex gap-2">
-              <p className="text-xs text-stone-500 lg:text-base font-subtitle border-l-4 border-stone-500 pl-2 mt-2 font-bold">
+            <div className="flex gap-1 md:gap-2">
+              <p className="text-xs md:text-base text-stone-500 font-subtitle border-l-4 border-stone-500 pl-1 md:pl-2 mt-1 md:mt-2 font-bold">
                 by {author}
               </p>
-              <p className="text-xs text-stone-500 lg:text-base font-subtitle pl-2 mt-2 font-bold">
+              <p className="text-xs md:text-base text-stone-500 font-subtitle pl-1 md:pl-2 mt-1 md:mt-2 font-bold">
                 {formatCreatedAt(blog.createdAt)}
               </p>
+              <div className="flex gap-1 md:gap-2 items-center mt-1 md:mt-2 ml-2 md:ml-4 text-stone-500 cursor-default">
+                <GoCommentDiscussion size={18} />
+                <p>{totalcomments}</p>
+              </div>
             </div>
             {/* <div className="mt-2">
               <p
@@ -80,12 +86,7 @@ const BlogCard = ({ title, author, image, blog }) => {
             </div> */}
           </div>
 
-          <div className="flex gap-4 items-center">
-            <div className=" flex gap-2 items-center  text-stone-400 cursor-default">
-              <GoCommentDiscussion size={20} />
-              <p>{totalcomments}</p>
-            </div>
-          </div>
+          <div className="flex gap-4 items-center"></div>
         </div>
       </div>
     </div>

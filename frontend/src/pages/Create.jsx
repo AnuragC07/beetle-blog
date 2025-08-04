@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import React from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
@@ -8,6 +8,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import "./QuillTheme.css";
 import toast from "react-hot-toast";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 
@@ -17,6 +18,8 @@ const Create = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
+  const [quillValue, setQuillValue] = useState("");
+  const typingTimeout = useRef(null);
   const [file, setFile] = useState("");
   const navigate = useNavigate();
 
@@ -105,9 +108,9 @@ const Create = () => {
   }
 
   return (
-    <div className="bg-stone-900">
+    <div className="bg-black">
       <Navbar />
-      <div className="flex flex-col justify-center items-center py-12 bg-stone-900">
+      <div className="flex flex-col justify-center items-center py-12 bg-black">
         {/* <h1 className="text-4xl font-subtitle font-light text-stone-400 ">
           Write your story
         </h1> */}
@@ -118,19 +121,19 @@ const Create = () => {
             </label> */}
             <input
               type="text"
-              className=" border-b-2 border-stone-600 w-full bg-stone-900 h-16 pl-3  mt-1 mb-2 lg:mb-5 focus:border-stone-600 focus:outline-none text-2xl lg:text-4xl font-medium font-title text-stone-100 placeholder:text-stone-700"
+              className=" border-b-2 border-stone-600 w-full bg-black h-16 pl-3  mt-1 mb-2 lg:mb-5 focus:border-stone-600 focus:outline-none text-2xl lg:text-4xl font-medium font-title text-stone-100 placeholder:text-stone-700"
               placeholder="Article Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <button
-              className="bg-stone-700 text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
+            {/* <button
+              className="bg-black text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
               rounded-2xl hover:shadow-md"
               onClick={generateMagicTitle}
             >
               <AutoAwesomeRoundedIcon className="mr-4 text-xs" />
               Generate a Magic title
-            </button>
+            </button> */}
             {/* <label className="text-lg text-slate-400 font-normal">
               Article Image
             </label> */}
@@ -141,7 +144,7 @@ const Create = () => {
               className="mt-2 rounded-lg border-2"
             ></FileInput> */}
             <select
-              className="cursor-pointer border-b-2 border-b-stone-600 mt-14 outline-none text-lg font-subtitle px-3 py-1 bg-stone-900 text-stone-100 hover:bg-stone-900"
+              className="cursor-pointer border-b-2 border-b-stone-600 mt-14 outline-none text-lg font-subtitle px-3 py-1 bg-black text-stone-100 hover:bg-black"
               value={category}
               onChange={handleCategory}
             >
@@ -194,10 +197,10 @@ const Create = () => {
 
             <label
               htmlFor="file-input"
-              className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-2xl lg:text-3xl text-stone-500 p-2 cursor-pointer mb-5 lg:mb-10"
+              className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-2xl lg:text-3xl text-stone-600 p-2 cursor-pointer mb-5 lg:mb-10"
             >
               {" "}
-              Add Image
+              Add Image (optional)
               <AddCircleOutlineRoundedIcon className=" ml-2" />
               <input
                 id="file-input"
@@ -234,32 +237,40 @@ const Create = () => {
               placeholder="Start writing your Blog"
             /> */}
 
-            <ReactQuill
-              value={content}
-              onChange={setContent}
-              theme="snow"
-              modules={{
-                toolbar: [
-                  [{ header: "1" }, { header: "2" }, { font: [] }],
-                  [{ size: [] }],
-                  ["bold", "italic", "underline", "strike", "blockquote"],
-                  [
-                    { list: "ordered" },
-                    { list: "bullet" },
-                    { indent: "-1" },
-                    { indent: "+1" },
+            <div className="relative mt-10 mb-10">
+              <ReactQuill
+                value={quillValue}
+                onChange={(val) => {
+                  setQuillValue(val);
+                  if (typingTimeout.current)
+                    clearTimeout(typingTimeout.current);
+                  typingTimeout.current = setTimeout(() => {
+                    setContent(val);
+                  }, 90); // 60ms delay for smooth typing
+                }}
+                theme="snow"
+                modules={{
+                  toolbar: [
+                    [{ header: "1" }, { header: "2" }, { font: [] }],
+                    [{ size: [] }],
+                    ["bold", "italic", "underline", "strike", "blockquote"],
+                    [
+                      { list: "ordered" },
+                      { list: "bullet" },
+                      { indent: "-1" },
+                      { indent: "+1" },
+                    ],
+                    ["link"],
+                    ["clean"],
                   ],
-                  ["link"],
-                  ["clean"],
-                ],
-              }}
-              className="h-52 mt-5 lg:h-60 text-white"
-            />
+                }}
+                className="custom-quill-editor"
+              />
+            </div>
 
             <div className="flex justify-center items-center pb-14">
               <button
-                className="bg-stone-600 text-white h-10 text-sm p-1 font-subtitle font-medium w-4/5 
-                mt-28 lg:mt-16 rounded-md mb-8"
+                className="bg-stone-800 text-stone-200 h-10 text-sm p-1 font-subtitle font-medium w-4/5 mt-28 lg:mt-8 rounded-md mb-8 transition-colors duration-200 hover:bg-stone-600 hover:text-white"
                 onClick={handleSaveBlog}
               >
                 Publish article

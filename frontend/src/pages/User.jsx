@@ -1,300 +1,291 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import BlogCard from "../components/BlogCard";
 import axios from "axios";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import toast from "react-hot-toast";
+import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
-import { HiOutlineBookmarkSlash } from "react-icons/hi2";
+import DisplayCard from "../components/DisplayCard";
 
 const decodeToken = (token) => {
   const payload = token.split(".")[1];
   return JSON.parse(atob(payload));
 };
 
-const User = () => {
-  const isLoggedIn = !!localStorage.getItem("jwtToken");
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [username, setUsername] = useState("");
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedBlog, setSelectedBlog] = useState(null);
-  const [bookmarkedBlogs, setBookmarkedBlogs] = useState([]);
-  const [results, setResults] = useState([]);
+const categories = [
+  "Entertainment",
+  "Gaming",
+  "Technology",
+  "Programming",
+  "AI",
+  "Movies",
+  "Politics",
+  "Sports",
+];
 
-  const handleLogout = () => {
-    // Remove the JWT token from localStorage
-    localStorage.removeItem("jwtToken");
-    // Close the logout modal
-    setShowLogoutModal(false);
-    navigate("/");
-  };
+const User = () => {
+  const [columns, setColumns] = useState([]);
+  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
+  const [blogs, setBlogs] = useState([]);
+  const [bookmarkedBlogs, setBookmarkedBlogs] = useState([]);
+  const [followedTopics, setFollowedTopics] = useState([]);
+  const [textblogs, setTextBlogs] = useState([]);
+  const [showAllTopStories, setShowAllTopStories] = useState(false);
+  const [showAllLatest, setShowAllLatest] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/", config);
-        const filteredBlogs = response.data.data.filter((blog) => {
-          return (
-            blog.author === decodedToken.username ||
-            blog.authorId === decodedToken.id
-          );
+    if (token) {
+      const decoded = decodeToken(token);
+      setUsername(decoded.username);
+      setUserId(decoded.id);
+      // Fetch user's blogs
+      axios.get("http://localhost:8000/").then((response) => {
+        const userBlogs = response.data.data.filter(
+          (blog) => blog.authorId === decoded.id
+        );
+        setBlogs(userBlogs);
+        setTextBlogs(response.data.data);
+      });
+      // Fetch user's columns
+      axios
+        .get(`http://localhost:8000/columns/by-user/${decoded.id}`)
+        .then((res) => {
+          setColumns(res.data.columns);
         });
-        setBlogs(filteredBlogs);
-        setLoading(false);
-      } catch (error) {
-        console.log("Axios Error:", error);
-      }
-    };
-
-    fetchData();
-
-    const decodedToken = decodeToken(token);
-    setUsername(decodedToken.username);
+      // Fetch user's bookmarked blogs
+      axios
+        .get("http://localhost:8000/api/bookmarks", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          setBookmarkedBlogs(res.data.bookmarkedBlogs || []);
+        });
+      // Fetch user's followed topics
+      axios
+        .get("http://localhost:8000/user/followed-topics", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          setFollowedTopics(res.data.followedTopics || []);
+        });
+    }
+    // Fetch blogs for rightbar
+    axios.get("http://localhost:8000/").then((response) => {
+      setTextBlogs(response.data.data);
+    });
   }, []);
 
-  const handleDelete = async () => {
-    try {
-      const token = localStorage.getItem("jwtToken");
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      await axios.delete(`http://localhost:8000/${selectedBlog._id}`, config);
-      toast.success("Blog deleted successfully!");
-      const updatedBlogs = blogs.filter(
-        (blog) => blog._id !== selectedBlog._id
-      );
-      setBlogs(updatedBlogs);
-      setShowDeleteModal(false);
-    } catch (error) {
-      toast.error("Blog deletion failed!");
-    }
-  };
+  // Rightbar logic (copied from Home.jsx)
+  const visibleCategories = categories;
+  const blogsByCategory = categories.reduce((acc, category) => {
+    acc[category] = textblogs.filter((blog) => blog.category === category);
+    return acc;
+  }, {});
+  const topStories = textblogs
+    .slice()
+    .sort((a, b) => (b.comments?.length || 0) - (a.comments?.length || 0));
+  const visibleTopStories = showAllTopStories
+    ? topStories
+    : topStories.slice(0, 5);
+  const visibleLatestArticles = showAllLatest
+    ? textblogs.slice().reverse()
+    : textblogs.slice().reverse().slice(0, 5);
 
-  const openDeleteModal = (blog) => {
-    setSelectedBlog(blog);
-    setShowDeleteModal(true);
-  };
-
-  const closeDeleteModal = () => {
-    setSelectedBlog(null);
-    setShowDeleteModal(false);
-  };
-  useEffect(() => {
-    const loadBookmarks = async () => {
-      const blogs = await fetchBookmarkedBlogs();
-      setBookmarkedBlogs(blogs);
-    };
-
-    loadBookmarks();
-  }, []);
-
-  const fetchBookmarkedBlogs = async () => {
-    try {
-      const token = localStorage.getItem("jwtToken"); // Retrieve JWT from localStorage
-      const response = await axios.get("http://localhost:8000/api/bookmarks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setResults(response.data.bookmarkedBlogs);
-    } catch (error) {
-      console.error("Full error:", error);
-      console.error("Response data:", error.response?.data);
-      return [];
-    }
-  };
-  const removeBookmark = async (blogId) => {
-    try {
-      const token = localStorage.getItem("jwtToken");
-      await axios.delete(`http://localhost:8000/bookmark/${blogId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setBookmarkedBlogs((prev) => prev.filter((blog) => blog._id !== blogId));
-    } catch (error) {
-      console.error("Full error object:", error);
-      console.error("Response status:", error.response?.status);
-      console.error("Response data:", error.response?.data);
-    }
-  };
   return (
-    <div>
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="pt-5 pl-2 pr-2 min-h-screen bg-stone-900">
-        <div className="flex gap-2">
-          <div className="flex justify-center"></div>
-          <div className="w-screen ml-10 mt-20">
-            <h1 className="text-amber-100 mt-4 text-3xl font-title">
-              hey there, {username}
-            </h1>
-            <h2 className="text-2xl font-bold mb-3 mt-10 font-subtitle text-stone-400 ">
-              Your Blogs
-            </h2>
-            {loading ? (
-              <p>Loading...</p>
-            ) : blogs.length === 0 ? (
-              <p className="text-xl font-bold font-subtitle text-stone-700">
-                No published blogs
-              </p>
+      <div className="flex flex-row w-full">
+        {/* Main content */}
+        <div className="flex-1 flex flex-col items-center p-8">
+          <h2 className="text-2xl font-semibold mb-6 text-amber-100 font-title mt-12">
+            {username}
+          </h2>
+          {/* Your Blogs */}
+          <h3 className="text-lg font-title text-white mb-4 mt-10">
+            Your Blogs
+          </h3>
+          <div className="w-full max-w-2xl mt-8 flex flex-col gap-6 mb-8">
+            {blogs.length === 0 ? (
+              <p className="text-white">No blogs created yet.</p>
             ) : (
-              <ul className="mt-8 relative">
-                {blogs.map((blog, index) => (
-                  <li key={index} className="mb-4">
-                    {blog.author === username && (
-                      <button
-                        onClick={() => openDeleteModal(blog)}
-                        className="text-white mt-8 shadow-xl border-2 border-stone-600 w-10 h-10 bg-stone-800 rounded-full absolute right-5 lg:right-8 z-40 cursor-pointer"
-                      >
-                        <DeleteRoundedIcon />
-                      </button>
-                    )}
-                    <div className="relative z-0">
-                      <BlogCard
-                        title={blog.title}
-                        author={blog.author}
-                        image={`http://localhost:8000/images/${blog.image}`}
-                        blog={blog}
-                        content={blog.content}
-                      />
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              blogs.map((blog) => (
+                <DisplayCard
+                  key={blog._id}
+                  title={blog.title}
+                  author={blog.author}
+                  category={blog.category}
+                  textblog={blog}
+                  image={
+                    blog.image
+                      ? `http://localhost:8000/images/${blog.image}`
+                      : undefined
+                  }
+                />
+              ))
             )}
-            {/* <div>
-              
-              {bookmarkedBlogs.length > 0 ? (
-                bookmarkedBlogs.map((blog) => (
-                  <div key={blog._id}>
-                    <h2>{blog.title}</h2>
-                    <p>{blog.content}</p>
-                  </div>
-                ))
-              ) : (
-                <p>You have no bookmarked blogs.</p>
-              )}
-            </div> */}
-            <h1 className="text-2xl font-bold mb-3 mt-10 font-subtitle text-stone-400 ">
-              Your Bookmarked Blogs
-            </h1>
+          </div>
 
-            <div>
-              {results.length > 0 ? (
-                results.map((blog) => (
-                  <li>
-                    <button
-                      onClick={() => removeBookmark(blog._id)}
-                      className="text-white mt-8 shadow-xl border-2 border-stone-600 w-10 h-10 bg-stone-800 rounded-full absolute right-5 lg:right-8 z-40 cursor-pointer"
-                    >
-                      <HiOutlineBookmarkSlash />
-                    </button>
-                    <BlogCard
-                      key={blog._id}
-                      title={blog.title}
-                      author={blog.author}
-                      image={`http://localhost:8000/images/${blog.image}`}
-                      blog={blog} // Pass the full blog object to BlogCard
-                    />
-                  </li>
-                ))
-              ) : (
-                <p className="text-white">No results found</p>
-              )}
+          {/* Your Bookmarked Blogs */}
+          <h3 className="text-lg font-title text-white mb-4">
+            Your Bookmarked Blogs
+          </h3>
+          <div className="w-full max-w-2xl flex flex-col gap-6 mb-8 mt-10">
+            {bookmarkedBlogs.length === 0 ? (
+              <p className="text-white">No bookmarked blogs.</p>
+            ) : (
+              bookmarkedBlogs.map((blog) => (
+                <DisplayCard
+                  key={blog._id}
+                  title={blog.title}
+                  author={blog.author}
+                  category={blog.category}
+                  textblog={blog}
+                  image={
+                    blog.image
+                      ? `http://localhost:8000/images/${blog.image}`
+                      : undefined
+                  }
+                />
+              ))
+            )}
+          </div>
+
+          {/* Your Followed Topics */}
+          {/* <h3 className="text-xl font-semibold text-white mb-4">
+            Your Followed Topics
+          </h3>
+          <div className="w-full max-w-2xl flex flex-row flex-wrap gap-2 mb-8">
+            {followedTopics.length === 0 ? (
+              <p className="text-white">No followed topics.</p>
+            ) : (
+              followedTopics.map((topic, idx) => (
+                <span
+                  key={idx}
+                  className="px-4 py-1 border border-amber-100 bg-black text-amber-100 font-bit rounded-2xl text-sm"
+                >
+                  #{topic}
+                </span>
+              ))
+            )}
+          </div> */}
+
+          {/* Your Columns (non-destructive) */}
+          <h3 className="text-lg font-title text-white mb-4">Your Columns</h3>
+          <div className="w-full max-w-2xl flex flex-col gap-6 mt-10">
+            {columns.length === 0 ? (
+              <p className="text-white">No columns created yet.</p>
+            ) : (
+              columns.map((col) => (
+                <Link
+                  key={col._id}
+                  to={`/usercolumns/${col._id}`}
+                  className="bg-stone-950 p-4 block shadow-md shadow-stone-900 rounded-xl hover:bg-stone-900 transition"
+                >
+                  <h3 className="text-lg font-semibold font-title text-amber-100">
+                    {col.name}
+                  </h3>
+                  <p className="text-stone-500 mb-2">{col.description}</p>
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
+        {/* Rightbar (copied from Home.jsx) */}
+        <div className="w-2/5 border border-stone-700 text-white  hidden md:block">
+          {/* Topics to follow section */}
+          <div className="flex flex-col pt-10 items-center">
+            <h1 className="mb-4 text-white font-title text-2xl mt-12">
+              Topics to follow
+            </h1>
+            <div className="flex flex-row flex-wrap gap-2 justify-center mb-2 w-full px-4">
+              {visibleCategories.map((category) => (
+                <span
+                  key={category}
+                  className="cursor-pointer px-4 py-1 mb-2 border border-stone-800 bg-black hover:bg-stone-800 text-amber-100 font-bit rounded-2xl text-sm transition-colors duration-300"
+                >
+                  #{category}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="w-[400px] border border-stone-600 p-4">
-            <p className="mt-28 mb-10 text-white font-title text-2xl">
-              Profile Action Centre
-            </p>
-            <p className="text-stone-600 cursor-pointer font-subtitle font-semibold">
-              Change Profile name
-            </p>
-
-            {isLoggedIn ? (
-              // If user is logged in, display "Logout" link
-              <>
-                <p
-                  className="text-stone-600 cursor-pointer font-subtitle font-semibold"
-                  onClick={() => setShowLogoutModal(true)}
+          {/* Top Stories Section in Sidebar */}
+          <div className="flex flex-col pt-4 items-center">
+            <h1 className="mt-2 mb-8 text-white font-title text-2xl">
+              Top Stories
+            </h1>
+            {visibleTopStories.map((blog, idx) => (
+              <DisplayCard
+                key={blog._id || blog.title || idx}
+                title={blog.title}
+                author={blog.author}
+                category={blog.category}
+                textblog={blog}
+                image={
+                  blog.image
+                    ? `http://localhost:8000/images/${blog.image}`
+                    : undefined
+                }
+              />
+            ))}
+            {topStories.length > 5 && !showAllTopStories && (
+              <div className="flex justify-center w-full">
+                <button
+                  className="mt-4 px-4 py-2 bg-stone-800 text-white rounded-xl hover:bg-stone-700 transition-colors"
+                  onClick={() => setShowAllTopStories(true)}
                 >
-                  Logout
-                </p>
-                {/* Logout Modal */}
-                {showLogoutModal && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 h-screen">
-                    <div className="bg-stone-900 flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg  mt-0 shadow-lg h-40 z-40">
-                      <div>
-                        <p className="text-white">
-                          Are you sure you want to logout?
-                        </p>
-                      </div>
-                      <div className="mt-4 flex gap-5  justify-end">
-                        <button
-                          onClick={handleLogout}
-                          className="bg-stone-700 text-white px-4 py-2 rounded-lg mr-2"
-                        >
-                          Logout
-                        </button>
-                        <button
-                          onClick={() => setShowLogoutModal(false)}
-                          className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </>
-            ) : (
-              // If user is not logged in, display "Login" link
-              <button className="bg-stone-700 text-white h-10 w-20 text-sm p-1 font-subtitle rounded-md font-light items-end">
-                <Link to="/signin" className="bg-stone-700 w-12">
-                  <p className="text-white font-semibold cursor-pointer">
-                    Login
-                  </p>
-                </Link>
-              </button>
+                  Explore More
+                </button>
+              </div>
+            )}
+            {showAllTopStories && (
+              <div className="flex justify-center w-full">
+                <button
+                  className="mt-4 px-4 py-2 bg-stone-800 text-white rounded-xl hover:bg-stone-700 transition-colors"
+                  onClick={() => setShowAllTopStories(false)}
+                >
+                  Show Less
+                </button>
+              </div>
+            )}
+          </div>
+          {/* Latest Articles Section in Sidebar */}
+          <div className="flex justify-center items-center">
+            <p className="mt-10 mb-8 text-white font-title text-2xl">
+              Latest Articles
+            </p>
+          </div>
+          <div className="mt-0 flex flex-col items-center">
+            {visibleLatestArticles.map((textblog, index) => (
+              <DisplayCard
+                key={index}
+                title={textblog.title}
+                author={textblog.author}
+                category={textblog.category}
+                textblog={textblog}
+              />
+            ))}
+            {textblogs.length > 5 && !showAllLatest && (
+              <div className="flex justify-center w-full">
+                <button
+                  className="mt-4 px-4 py-2 bg-stone-800 text-white rounded-xl hover:bg-stone-700 transition-colors"
+                  onClick={() => setShowAllLatest(true)}
+                >
+                  Explore More
+                </button>
+              </div>
+            )}
+            {showAllLatest && (
+              <div className="flex justify-center w-full">
+                <button
+                  className="mt-4 px-4 py-2 bg-stone-800 text-white rounded-xl hover:bg-stone-700 transition-colors"
+                  onClick={() => setShowAllLatest(false)}
+                >
+                  Show Less
+                </button>
+              </div>
             )}
           </div>
         </div>
       </div>
-      {showDeleteModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-100">
-          <div className="bg-stone-900 p-8 max-w-md mx-auto rounded-lg shadow-lg z-101">
-            <h2 className="text-xl font-bold mb-4 text-white">Delete Blog</h2>
-            <p className="text-white">
-              Are you sure you want to delete this blog?
-            </p>
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={handleDelete}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg mr-2 cursor-pointer"
-              >
-                Delete
-              </button>
-              <button
-                onClick={closeDeleteModal}
-                className="bg-stone-600 text-white px-4 py-2 rounded-lg cursor-pointer"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -6,11 +6,13 @@ const cors = require("cors");
 const blogsRoute = require("./routes/blogsRoute");
 const userRoute = require("./routes/userRoute");
 const commentRoute = require("./routes/commentRoute");
+const { router: topicRouter } = require("./models/topicModel");
 
 app.use(cors());
 // app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 app.use('/', blogsRoute);
+app.use('/categories', topicRouter);
 app.use('/', userRoute);
 app.use('/', commentRoute);  // Make sure this is added
 app.use(

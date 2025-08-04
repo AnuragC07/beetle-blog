@@ -9,6 +9,9 @@ import User from "./pages/User";
 import Create from "./pages/Create";
 import Landing from "./pages/Landing";
 import Test from "./pages/Test";
+import TopicPage from "./pages/TopicPage";
+import CreateColumn from "./pages/CreateColumn";
+import UserColumns from "./pages/UserColumns";
 
 const App = () => {
   return (
@@ -23,6 +26,10 @@ const App = () => {
         <Route path="/user" element={<User />} />
         <Route path="/create" element={<Create />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/category/:topic" element={<TopicPage />} />
+        <Route path="/createcolumn" element={<CreateColumn />} />
+        <Route path="/user/columns" element={<UserColumns />} />
+        <Route path="/usercolumns/:columnId" element={<UserColumns />} />
       </Routes>
     </div>
   );

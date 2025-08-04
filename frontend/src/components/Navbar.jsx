@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import MenuIcon from "@mui/icons-material/Menu";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { IoSearchOutline } from "react-icons/io5";
 import axios from "axios";
 import BlogCard from "./BlogCard";
@@ -46,7 +47,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex flex-row justify-between p-4 fixed top-0 w-full bg-stone-900 backdrop-blur-xl h-16 z-50 border-b border-b-stone-700">
+    <div className="flex flex-row justify-between p-4 fixed top-0 w-full bg-black backdrop-blur-xl h-16 z-50 border-b border-b-stone-700">
       <Link to="/">
         <img src={Logo} alt="" />
       </Link>
@@ -56,13 +57,13 @@ const Navbar = () => {
           id="lists"
           className="flex lg:flex-row lg:justify-center lg:items-center gap-8 mr-10 p-4"
         >
-          <div className="bg-stone-900 border border-stone-700 shadow-md px-4 py-2 rounded-2xl flex gap-2 items-center">
+          <div className="bg-stone-950 border border-stone-800 shadow-md px-4 py-2 rounded-2xl flex gap-2 items-center ">
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search an article"
-              className="bg-stone-900 text-stone-200 outline-none w-56 placeholder:text-stone-600 font-subtitle"
+              className="bg-stone-950 text-stone-400 outline-none w-56 placeholder:text-stone-600 font-subtitle font-bold"
             />
             <button onClick={handleSearch}>
               <IoSearchOutline
@@ -75,7 +76,7 @@ const Navbar = () => {
           {/* Render the modal when isModalOpen is true */}
           {isModalOpen && (
             <div
-              className="absolute top-14 w-auto bg-stone-900 border border-stone-700 rounded-xl p-2 min-w-[800px] mt-2 z-50" // Control opacity for smooth fade-in
+              className="absolute top-14 w-auto bg-black border border-stone-700 rounded-xl p-2 min-w-[800px] mt-2 z-50" // Control opacity for smooth fade-in
             >
               <div className="flex justify-between items-center">
                 <h2 className="text-white text-lg ml-14 font-semibold">
@@ -105,8 +106,17 @@ const Navbar = () => {
           )}
 
           <Link
+            to="/createcolumn"
+            className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-fit border-2 border-stone-800 bg-black"
+          >
+            <AddCircleOutlineOutlinedIcon className=" text-stone-300  rounded-full " />
+            <p className="text-stone-300 cursor-pointer font-subtitle">
+              Create a Column
+            </p>
+          </Link>
+          <Link
             to="/create"
-            className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-28 border-2 border-stone-800 bg-stone-800"
+            className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-28 border-2 border-stone-800 bg-black"
           >
             <CreateRoundedIcon className=" text-white  rounded-full " />
             <p className="text-white cursor-pointer font-subtitle">Write</p>
@@ -133,7 +143,7 @@ const Navbar = () => {
               {/* Logout Modal */}
               {showLogoutModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 h-screen">
-                  <div className="bg-stone-900 flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg  mt-0 shadow-lg h-40 z-40">
+                  <div className="bg-black flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg  mt-0 shadow-lg h-40 z-40">
                     <div>
                       <p className="text-white">
                         Are you sure you want to logout?
@@ -159,8 +169,8 @@ const Navbar = () => {
             </>
           ) : (
             // If user is not logged in, display "Login" link
-            <button className="bg-stone-700 text-white h-10 w-20 text-sm p-1 font-subtitle rounded-md font-light items-end">
-              <Link to="/signin" className="bg-stone-700 w-12">
+            <button className="bg-black text-white h-10 w-20 text-sm p-1 font-subtitle rounded-md font-light items-end">
+              <Link to="/signin" className="bg-black w-12">
                 <p className="text-white font-semibold cursor-pointer">Login</p>
               </Link>
             </button>
@@ -169,7 +179,7 @@ const Navbar = () => {
       </div>
       {/* Hamburger Menu Icon */}
       <MenuIcon
-        className="relative lg:text-stone-900 lg:cursor-default flex lg: cursor-pointer text-stone-700 mr-4"
+        className="relative lg:text-black lg:cursor-default flex lg: cursor-pointer text-stone-700 mr-4"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       />
 
@@ -177,7 +187,7 @@ const Navbar = () => {
       <div
         className={`${
           isMenuOpen ? "flex" : "hidden"
-        } absolute right-4 top-10 lg:hidden flex-col bg-stone-900 border-stone-600 h-fit  rounded-lg shadow-xl  lg:flex-row lg:justify-center lg:items-center gap-8 m-0 lg:mr-10 p-4 ease-in`}
+        } absolute right-4 top-10 lg:hidden flex-col bg-black border-stone-600 h-fit  rounded-lg shadow-xl  lg:flex-row lg:justify-center lg:items-center gap-8 m-0 lg:mr-10 p-4 ease-in`}
       >
         <Link
           to="/create"
@@ -232,8 +242,8 @@ const Navbar = () => {
           </>
         ) : (
           // If user is not logged in, display "Login" link
-          <button className="bg-stone-700 text-white h-10 w-20 text-sm p-1 font-subtitle rounded-md font-light items-end">
-            <Link to="/signin" className="bg-stone-700 w-12">
+          <button className="bg-black text-white h-10 w-20 text-sm p-1 font-subtitle rounded-md font-light items-end">
+            <Link to="/signin" className="bg-black w-12">
               <p className="text-white font-semibold cursor-pointer">Login</p>
             </Link>
           </button>

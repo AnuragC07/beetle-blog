@@ -3,7 +3,7 @@ import Logo from "../assets/beetle2.svg";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col min-h-screen justify-center items-center gap-5 bg-stone-950 p-5 pt-10">
+    <div className="flex flex-col min-h-screen justify-center items-center gap-5 bg-black p-5 pt-10">
       <img src={Logo} alt="" />
       <div className="flex flex-col justify-center items-center text-white">
         <p className="mt-10 mb-2 text-white">About Us</p>

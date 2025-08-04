@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const { jwtAuthMiddleware, generateToken, extractUsernameFromToken } = require('../jwt');
 const Blog = require("../models/blogModel");
 const app = express();
+const Topic = require("../models/topicModel");
+const Column = require("../models/columnModel");
 
 app.use(express.json());
 
@@ -127,8 +129,146 @@ router.delete("bookmark/:blogId", jwtAuthMiddleware, extractUsernameFromToken, a
     }
 });
 
+// Follow a topic
+router.post('/follow-topic', jwtAuthMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        let { topicName } = req.body;
+        if (!topicName) return res.status(400).json({ message: "Topic name required" });
+        topicName = topicName.trim().toLowerCase();
 
+        // Add topic to user's followedTopics if not already present
+        const user = await User.findById(userId);
+        if (!user.followedTopics.map(t => t.toLowerCase()).includes(topicName)) {
+            user.followedTopics.push(topicName);
+            await user.save();
+        }
 
+        // Increment topic follower count (create topic if not exists)
+        let topic = await Topic.findOne({ name: topicName });
+        if (!topic) {
+            topic = await Topic.create({ name: topicName, followers: 1 });
+        } else {
+            topic.followers += 1;
+            await topic.save();
+        }
+
+        res.status(200).json({ message: `Followed ${topicName}`, topic });
+    } catch (error) {
+        console.error("Follow-topic error:", error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Unfollow a topic
+router.post('/unfollow-topic', jwtAuthMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        let { topicName } = req.body;
+        if (!topicName) return res.status(400).json({ message: "Topic name required" });
+        topicName = topicName.trim().toLowerCase();
+
+        // Remove topic from user's followedTopics
+        const user = await User.findById(userId);
+        user.followedTopics = user.followedTopics.filter(t => t.toLowerCase() !== topicName);
+        await user.save();
+
+        // Decrement topic follower count
+        const topic = await Topic.findOne({ name: topicName });
+        if (topic && topic.followers > 0) {
+            topic.followers -= 1;
+            await topic.save();
+        }
+
+        res.status(200).json({ message: `Unfollowed ${topicName}`, topic });
+    } catch (error) {
+        console.error("Unfollow-topic error:", error);
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Get all topics with follower counts
+router.get('/topics', async (req, res) => {
+    try {
+        const topics = await Topic.find({});
+        res.status(200).json({ topics });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Get user's followed topics
+router.get('/user/followed-topics', jwtAuthMiddleware, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        res.status(200).json({ followedTopics: user.followedTopics || [] });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Admin endpoint to clean up duplicate topics (run once if you get duplicate key errors)
+router.post('/admin/cleanup-topics', async (req, res) => {
+    try {
+        await Topic.cleanupDuplicates();
+        res.status(200).json({ message: 'Duplicate topics cleaned up.' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Create a new column
+router.post("/columns", jwtAuthMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { name, description } = req.body;
+        const column = new Column({ name, description, user: userId });
+        await column.save();
+        res.status(201).json({ message: "Column created", column });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to create column" });
+    }
+});
+
+// Get columns for logged-in user
+router.get("/columns/user", async (req, res) => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1];
+        if (!token) return res.status(401).json({ error: "No token" });
+        const jwt = require("../jwt");
+        const decoded = jwt.verifyToken(token);
+        const userId = decoded.id;
+        const columns = await Column.find({ user: userId });
+        const user = await require("../models/userModel").findById(userId);
+        res.json({ columns, user: { username: user.username } });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch columns" });
+    }
+});
+
+// Public route to get all columns for a user by userId
+router.get("/columns/by-user/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const columns = await require("../models/columnModel").find({ user: userId });
+        res.json({ columns });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch columns" });
+    }
+});
+
+// Public route to get a single column by its ID
+router.get("/column/:columnId", async (req, res) => {
+    try {
+        const columnId = req.params.columnId;
+        const column = await require("../models/columnModel").findById(columnId);
+        if (!column) return res.status(404).json({ error: "Column not found" });
+        const user = await require("../models/userModel").findById(column.user);
+        res.json({ column, user: { username: user.username } });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch column" });
+    }
+});
 
 
 //api for user profile

@@ -11,6 +11,7 @@ export default {
         subtitle: ["Poppins", "sans-serif"],
         stylish: ["Satisfy", "sans-serif"],
         hero: ["Open Sans", "sans-serif"],
+        bit: ["Bitcount Grid Single", "sans-serif"]
       },
     },
   },

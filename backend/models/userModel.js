@@ -21,6 +21,11 @@ const userSchema = mongoose.Schema(
                 ref: 'Blog', // This assumes you have a Blog model
             },
         ],
+        followedTopics: [
+            {
+                type: String,
+            },
+        ],
     },
     {
         timestamps: true,
