@@ -25,7 +25,6 @@ const Navbar = () => {
     localStorage.removeItem("jwtToken");
     // Close the logout modal
     setShowLogoutModal(false);
-
     navigate("/");
   };
 
@@ -42,7 +41,6 @@ const Navbar = () => {
   };
 
   const closeModal = () => {
-    console.log("Closing modal");
     setIsModalOpen(false); // Close the modal
   };
 
@@ -63,7 +61,7 @@ const Navbar = () => {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search an article"
-              className="bg-stone-950 text-stone-400 outline-none w-56 placeholder:text-stone-600 font-subtitle font-bold"
+              className="bg-stone-950 text-stone-400 outline-none w-56 placeholder:text-stone-600 font-subtitle font-bold text-xs md:text-sm"
             />
             <button onClick={handleSearch}>
               <IoSearchOutline
@@ -75,14 +73,15 @@ const Navbar = () => {
           </div>
           {/* Render the modal when isModalOpen is true */}
           {isModalOpen && (
-            <div
-              className="absolute top-14 w-auto bg-black border border-stone-700 rounded-xl p-2 min-w-[800px] mt-2 z-50" // Control opacity for smooth fade-in
-            >
+            <div className="absolute top-14 w-auto bg-black border border-stone-700 rounded-xl p-2 min-w-[800px] mt-2 z-50">
               <div className="flex justify-between items-center">
-                <h2 className="text-white text-lg ml-14 font-semibold">
+                <h2 className="text-white text-base md:text-lg ml-14 font-semibold">
                   Search Results
                 </h2>
-                <button onClick={closeModal} className="text-white mr-2">
+                <button
+                  onClick={closeModal}
+                  className="text-white mr-2 text-xs md:text-base"
+                >
                   X
                 </button>
               </div>
@@ -95,11 +94,13 @@ const Navbar = () => {
                       title={blog.title}
                       author={blog.author}
                       image={`http://localhost:8000/images/${blog.image}`}
-                      blog={blog} // Pass the full blog object to BlogCard
+                      blog={blog}
                     />
                   ))
                 ) : (
-                  <p className="text-white">No results found</p>
+                  <p className="text-white text-xs md:text-base">
+                    No results found
+                  </p>
                 )}
               </div>
             </div>
@@ -110,23 +111,24 @@ const Navbar = () => {
             className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-28 border-2 border-stone-800 bg-black"
           >
             <CreateRoundedIcon className=" text-white  rounded-full " />
-            <p className="text-white cursor-pointer font-subtitle">Write</p>
+            <p className="text-white cursor-pointer font-subtitle text-xs md:text-sm">
+              Write
+            </p>
           </Link>
           <hr className="border-r border-stone-400 h-7" />
-          <p className="text-stone-400 cursor-pointer font-subtitle font-semibold">
+          <p className="text-stone-400 cursor-pointer font-subtitle font-semibold text-xs md:text-sm">
             About
           </p>
 
           {isLoggedIn ? (
-            // If user is logged in, display "Logout" link
             <>
               <Link to="/user">
-                <p className="text-stone-400 cursor-pointer font-subtitle font-semibold">
+                <p className="text-stone-400 cursor-pointer font-subtitle font-semibold text-xs md:text-sm">
                   You
                 </p>
               </Link>
               <p
-                className="text-stone-900 hidden font-subtitle font-semibold"
+                className="text-stone-900 hidden font-subtitle font-semibold text-xs md:text-sm"
                 onClick={() => setShowLogoutModal(true)}
               >
                 Logout
@@ -136,20 +138,20 @@ const Navbar = () => {
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 h-screen">
                   <div className="bg-black flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg  mt-0 shadow-lg h-40 z-40">
                     <div>
-                      <p className="text-white">
+                      <p className="text-white text-xs md:text-base">
                         Are you sure you want to logout?
                       </p>
                     </div>
                     <div className="mt-4 flex gap-5  justify-end">
                       <button
                         onClick={handleLogout}
-                        className="bg-stone-700 text-white px-4 py-2 rounded-lg mr-2"
+                        className="bg-stone-700 text-white px-4 py-2 rounded-lg mr-2 text-xs md:text-base"
                       >
                         Logout
                       </button>
                       <button
                         onClick={() => setShowLogoutModal(false)}
-                        className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg"
+                        className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-xs md:text-base"
                       >
                         Cancel
                       </button>
@@ -159,8 +161,7 @@ const Navbar = () => {
               )}
             </>
           ) : (
-            // If user is not logged in, display "Login" link
-            <button className="bg-black text-white h-10 w-20 text-sm p-1 font-subtitle rounded-md font-light items-end">
+            <button className="bg-black text-white h-10 w-20 text-xs md:text-sm p-1 font-subtitle rounded-md font-light items-end">
               <Link to="/signin" className="bg-black w-12">
                 <p className="text-white font-semibold cursor-pointer">Login</p>
               </Link>
@@ -185,23 +186,24 @@ const Navbar = () => {
           className="flex justify-between gap-2 px-4 py-2 rounded-3xl shadow-md w-28 border-2 border-stone-100"
         >
           <CreateRoundedIcon className=" text-white  rounded-full " />
-          <p className="text-white cursor-pointer font-semibold ">Write</p>
+          <p className="text-white cursor-pointer font-semibold text-xs md:text-sm">
+            Write
+          </p>
         </Link>
 
         <Link to="/user">
-          <p className="text-white cursor-pointer font-subtitle font-semibold">
+          <p className="text-white cursor-pointer font-subtitle font-semibold text-xs md:text-sm">
             You
           </p>
         </Link>
         <hr className="border-r hidden lg:border-stone-400 h-7" />
-        <p className="text-white cursor-pointer font-subtitle font-semibold">
+        <p className="text-white cursor-pointer font-subtitle font-semibold text-xs md:text-sm">
           About
         </p>
         {isLoggedIn ? (
-          // If user is logged in, display "Logout" link
           <>
             <p
-              className="text-stone-300 cursor-pointer font-subtitle font-semibold"
+              className="text-stone-300 cursor-pointer font-subtitle font-semibold text-xs md:text-sm"
               onClick={() => setShowLogoutModal(true)}
             >
               Logout
@@ -211,18 +213,20 @@ const Navbar = () => {
               <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 h-screen mt-20">
                 <div className="bg-white flex flex-col justify-between p-8 max-w-md mx-auto rounded-lg  mt-0 shadow-lg h-40 z-40">
                   <div>
-                    <p>Are you sure you want to logout?</p>
+                    <p className="text-xs md:text-base">
+                      Are you sure you want to logout?
+                    </p>
                   </div>
                   <div className="mt-4 flex gap-5  justify-end">
                     <button
                       onClick={handleLogout}
-                      className="bg-red-600 lg:bg-red-600 text-white px-4 py-2 rounded-lg mr-2"
+                      className="bg-red-600 lg:bg-red-600 text-white px-4 py-2 rounded-lg mr-2 text-xs md:text-base"
                     >
                       Logout
                     </button>
                     <button
                       onClick={() => setShowLogoutModal(false)}
-                      className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg"
+                      className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-xs md:text-base"
                     >
                       Cancel
                     </button>
@@ -232,8 +236,7 @@ const Navbar = () => {
             )}
           </>
         ) : (
-          // If user is not logged in, display "Login" link
-          <button className="bg-black text-white h-10 w-20 text-sm p-1 font-subtitle rounded-md font-light items-end">
+          <button className="bg-black text-white h-10 w-20 text-xs md:text-sm p-1 font-subtitle rounded-md font-light items-end">
             <Link to="/signin" className="bg-black w-12">
               <p className="text-white font-semibold cursor-pointer">Login</p>
             </Link>

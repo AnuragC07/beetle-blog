@@ -14,7 +14,6 @@ import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 
 const Create = () => {
   const [imagePreview, setImagePreview] = useState(null);
-
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
@@ -22,19 +21,9 @@ const Create = () => {
   const typingTimeout = useRef(null);
   const [file, setFile] = useState("");
   const navigate = useNavigate();
+  const [showToolbar, setShowToolbar] = useState(false);
 
-  const apiKey = process.env.REACT_APP_GEMINI_API_KEY; //total process for env is this - define env var, define eslint node:true, change the vite.config file (as shown in the dev article https://dev.to/boostup/uncaught-referenceerror-process-is-not-defined-12kg) then the error should be resolved. The env var should start with REACT_APP_...
-
-  // const handleImageChange = (e) => {
-  //   setFile (e.target.files[0]);
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImagePreview(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
 
   const handleCloseImage = () => {
     setImagePreview(null);
@@ -47,7 +36,6 @@ const Create = () => {
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
-
     if (selectedFile) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -63,7 +51,6 @@ const Create = () => {
     formdata.append("category", category);
     formdata.append("file", file);
     formdata.append("content", content);
-    // console.log(formdata);
     axios
       .post("http://localhost:8000/", formdata, {
         headers: {
@@ -72,7 +59,6 @@ const Create = () => {
       })
       .then(() => {
         toast.success("Blog Published!");
-        // console.log(res);
         navigate("/");
       })
       .catch(() => {
@@ -82,7 +68,6 @@ const Create = () => {
 
   async function generateMagicTitle() {
     setTitle("Generating Title...");
-
     try {
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
@@ -99,7 +84,6 @@ const Create = () => {
           ],
         },
       });
-
       setTitle(response.data.candidates[0].content.parts[0].text);
     } catch (error) {
       console.error("Error generating title:", error);
@@ -108,174 +92,110 @@ const Create = () => {
   }
 
   return (
-    <div className="bg-black">
+    <div className="bg-black min-h-screen">
       <Navbar />
-      <div className="flex flex-col justify-center items-center py-12 bg-black">
-        {/* <h1 className="text-4xl font-subtitle font-light text-stone-400 ">
-          Write your story
-        </h1> */}
-        <div className="lg:mt-20 flex h-fit flex-col w-full justify-start lg:justify-center items-center mt-4">
-          <div className="w-11/12 lg:w-4/5 flex flex-col">
-            {/* <label className="text-lg text-slate-400 font-normal">
-              Article Title
-            </label> */}
+      <div className="max-w-4xl mx-auto px-4 flex flex-col justify-center items-center py-12 bg-black">
+        <div className="w-full lg:w-4/5 flex flex-col mt-8">
+          <input
+            type="text"
+            className="border-b-2 border-stone-600 w-full bg-black h-14 pl-3 mt-1 mb-2 lg:mb-5 focus:border-stone-600 focus:outline-none text-lg md:text-2xl lg:text-4xl font-medium font-title text-stone-100 placeholder:text-stone-700"
+            placeholder="Article Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <select
+            className="cursor-pointer border-b-2 border-b-stone-600 mt-8 outline-none text-base md:text-lg font-subtitle px-3 py-1 bg-black text-stone-100 hover:bg-black"
+            value={category}
+            onChange={handleCategory}
+          >
+            <option value="" disabled hidden>
+              Select a category
+            </option>
+            <option value="Environment">Environment</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Technology">Technology</option>
+            <option value="Programming">Programming</option>
+            <option value="AI">AI</option>
+            <option value="Politics">Politics</option>
+            <option value="Sports">Sports</option>
+          </select>
+          <label
+            htmlFor="file-input"
+            className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-lg md:text-2xl lg:text-3xl text-stone-600 p-2 cursor-pointer mb-5 lg:mb-10"
+          >
+            Add Image (optional)
+            <AddCircleOutlineRoundedIcon className="ml-2" />
             <input
-              type="text"
-              className=" border-b-2 border-stone-600 w-full bg-black h-16 pl-3  mt-1 mb-2 lg:mb-5 focus:border-stone-600 focus:outline-none text-2xl lg:text-4xl font-medium font-title text-stone-100 placeholder:text-stone-700"
-              placeholder="Article Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            {/* <button
-              className="bg-black text-white h-10 text-sm p-1 font-subtitle font-medium w-52 lg:w-64
-              rounded-2xl hover:shadow-md"
-              onClick={generateMagicTitle}
-            >
-              <AutoAwesomeRoundedIcon className="mr-4 text-xs" />
-              Generate a Magic title
-            </button> */}
-            {/* <label className="text-lg text-slate-400 font-normal">
-              Article Image
-            </label> */}
-            {/* <FileInput
+              id="file-input"
               type="file"
               accept=".jpg, .jpeg, .png"
               onChange={handleFileChange}
-              className="mt-2 rounded-lg border-2"
-            ></FileInput> */}
-            <select
-              className="cursor-pointer border-b-2 border-b-stone-600 mt-14 outline-none text-lg font-subtitle px-3 py-1 bg-black text-stone-100 hover:bg-black"
-              value={category}
-              onChange={handleCategory}
-            >
-              <option value="" disabled selected hidden>
-                Select a category
-              </option>
-              <option
-                value="Environment"
-                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
-              >
-                Environment
-              </option>
-              <option
-                value="Gaming"
-                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
-              >
-                Gaming
-              </option>
-              <option
-                value="Technology"
-                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
-              >
-                Technology
-              </option>
-              <option
-                value="Programming"
-                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
-              >
-                Programming
-              </option>
-              <option
-                value="AI"
-                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
-              >
-                AI
-              </option>
-              <option
-                value="Politics"
-                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
-              >
-                Politics
-              </option>
-              <option
-                value="Sports"
-                className="cursor-pointer outline-none text-md font-semibold rounded-xl px-3 py-1 font-subtitle text-stone-300"
-              >
-                Sports
-              </option>
-            </select>
-
-            <label
-              htmlFor="file-input"
-              className="mt-2 lg:mt-5 rounded-lg font-medium font-title text-2xl lg:text-3xl text-stone-600 p-2 cursor-pointer mb-5 lg:mb-10"
-            >
-              {" "}
-              Add Image (optional)
-              <AddCircleOutlineRoundedIcon className=" ml-2" />
-              <input
-                id="file-input"
-                type="file"
-                accept=".jpg, .jpeg, .png"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-            </label>
-
-            {imagePreview && (
-              <div className="relative mt-2 rounded-md">
-                <button
-                  onClick={handleCloseImage}
-                  className="absolute top-2 right-2 text-white bg-gray-700 p-1 rounded-full"
-                >
-                  <CloseRoundedIcon />
-                </button>
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="lg:w-1/4 w-3/5  rounded-lg"
-                />
-              </div>
-            )}
-            {/* <label className="text-lg text-slate-400 font-normal mt-5">
-              Article Content
-            </label> */}
-            {/* <textarea
-              type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="border border-slate-400 w-full bg-white rounded-md my-2 px-5 py-5 min-h-60 text-slate-600 font-normal text-xl"
-              placeholder="Start writing your Blog"
-            /> */}
-
-            <div className="relative mt-10 mb-10">
-              <ReactQuill
-                value={quillValue}
-                onChange={(val) => {
-                  setQuillValue(val);
-                  if (typingTimeout.current)
-                    clearTimeout(typingTimeout.current);
-                  typingTimeout.current = setTimeout(() => {
-                    setContent(val);
-                  }, 90); // 60ms delay for smooth typing
-                }}
-                theme="snow"
-                modules={{
-                  toolbar: [
-                    [{ header: "1" }, { header: "2" }, { font: [] }],
-                    [{ size: [] }],
-                    ["bold", "italic", "underline", "strike", "blockquote"],
-                    [
-                      { list: "ordered" },
-                      { list: "bullet" },
-                      { indent: "-1" },
-                      { indent: "+1" },
-                    ],
-                    ["link"],
-                    ["clean"],
-                  ],
-                }}
-                className="custom-quill-editor"
-              />
-            </div>
-
-            <div className="flex justify-center items-center pb-14">
+              className="hidden"
+            />
+          </label>
+          {imagePreview && (
+            <div className="relative mt-2 rounded-md">
               <button
-                className="bg-stone-800 text-stone-200 h-10 text-sm p-1 font-subtitle font-medium w-4/5 mt-28 lg:mt-8 rounded-md mb-8 transition-colors duration-200 hover:bg-stone-600 hover:text-white"
-                onClick={handleSaveBlog}
+                onClick={handleCloseImage}
+                className="absolute top-2 right-2 text-white bg-gray-700 p-1 rounded-full"
               >
-                Publish article
+                <CloseRoundedIcon />
               </button>
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="lg:w-1/4 w-3/5 rounded-lg"
+              />
             </div>
+          )}
+          {/* Expand/Collapse Toolbar Button */}
+          <div className="flex justify-end mt-6 mb-2">
+            <button
+              className="px-4 py-1 rounded-xl bg-stone-800 text-xs md:text-sm text-white hover:bg-stone-700 transition-colors mb-9"
+              onClick={() => setShowToolbar((v) => !v)}
+            >
+              {showToolbar ? "Collapse Toolbar" : "Expand Toolbar"}
+            </button>
+          </div>
+          {/* Quill Editor */}
+          <div className="relative mb-10">
+            <ReactQuill
+              value={quillValue}
+              onChange={(val) => {
+                setQuillValue(val);
+                if (typingTimeout.current) clearTimeout(typingTimeout.current);
+                typingTimeout.current = setTimeout(() => {
+                  setContent(val);
+                }, 90);
+              }}
+              theme="snow"
+              modules={{
+                toolbar: [
+                  [{ header: "1" }, { header: "2" }, { font: [] }],
+                  [{ size: [] }],
+                  ["bold", "italic", "underline", "strike", "blockquote"],
+                  [
+                    { list: "ordered" },
+                    { list: "bullet" },
+                    { indent: "-1" },
+                    { indent: "+1" },
+                  ],
+                  ["link"],
+                  ["clean"],
+                ],
+              }}
+              className={`custom-quill-editor text-base md:text-lg ${
+                !showToolbar ? "ql-toolbar-hidden" : ""
+              }`}
+            />
+          </div>
+          <div className="flex justify-center items-center pb-14">
+            <button
+              className="bg-stone-800 text-stone-200 h-10 text-xs md:text-sm p-1 font-subtitle font-medium w-4/5 mt-20 lg:mt-8 rounded-md mb-8 transition-colors duration-200 hover:bg-stone-600 hover:text-white"
+              onClick={handleSaveBlog}
+            >
+              Publish article
+            </button>
           </div>
         </div>
       </div>

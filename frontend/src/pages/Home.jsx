@@ -106,7 +106,7 @@ const Home = () => {
 
     return (
       <div key={category} className="mb-8">
-        <h1 className="font-bit text-2xl md:text-3xl lg:text-4xl text-white mt-10 mb-6 text-center">
+        <h1 className="font-bit text-2xl md:text-3xl lg:text-4xl mt-10 mb-6 text-left text-stone-500">
           #{category}
         </h1>
         {featured && (
@@ -218,7 +218,7 @@ const Home = () => {
         {/* Render #foryou or selected category */}
         {!selectedCategory ? (
           <>
-            <h1 className="font-bit text-3xl md:text-4xl lg:text-5xl text-white mb-8 text-center">
+            <h1 className="font-bit text-3xl md:text-4xl lg:text-5xl text-white mb-8 text-left">
               #foryou
             </h1>
             {forYouFeatured && forYouFeatured.image ? (

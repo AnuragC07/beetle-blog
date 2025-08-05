@@ -33,6 +33,11 @@
   transition: box-shadow 0.2s, background 0.2s;
 }
 
+/* Hide toolbar when ql-toolbar-hidden class is applied */
+.ql-toolbar-hidden .ql-toolbar {
+  display: none !important;
+}
+
 .ql-toolbar .ql-formats {
   margin-right: 1.5rem;
 }
